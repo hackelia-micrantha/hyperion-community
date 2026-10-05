@@ -1,0 +1,40 @@
+min_version = "2026.8.2"
+
+[tools]
+opentofu = "1.9.0"
+kubectl = "1.31.4"
+python = "3.12"
+kubeconform = "0.6.7"
+
+[tasks.bootstrap-python]
+sources = ["requirements-ci.txt"]
+outputs = [".venv/bin/ansible-playbook", ".venv/bin/ansible-lint"]
+run = "python -m venv .venv && .venv/bin/python -m pip install --disable-pip-version-check --requirement requirements-ci.txt"
+
+[tasks.doctor]
+depends = ["bootstrap-python"]
+run = "for tool in tofu kubectl kubeconform python; do command -v $tool >/dev/null || exit 1; done; test -x .venv/bin/ansible-playbook; test -x .venv/bin/ansible-lint"
+
+[tasks.terraform-fmt]
+run = "tofu fmt -check -recursive"
+
+[tasks.terraform-validate]
+run = "tofu -chdir=examples/local init -backend=false && tofu -chdir=examples/local validate"
+
+[tasks.ansible]
+depends = ["bootstrap-python"]
+run = "ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-playbook -i localhost, ansible/playbooks/reference.yml --syntax-check && ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-playbook -i localhost, ansible/playbooks/reference.yml --check && .venv/bin/ansible-lint ansible/"
+
+[tasks.kubernetes]
+run = "kubectl kustomize k8s/base > /tmp/hyperion-base.yaml && kubectl kustomize k8s/examples/local > /tmp/hyperion-local.yaml && kubeconform -strict -summary -kubernetes-version 1.31.0 /tmp/hyperion-base.yaml /tmp/hyperion-local.yaml"
+
+[tasks.publication-scan]
+run = "python tests/publication_scan.py"
+
+[tasks.lint]
+depends = ["bootstrap-python"]
+run = ["mise run terraform-fmt", "mise run ansible", "mise run publication-scan"]
+
+[tasks.ci]
+depends = ["doctor"]
+run = ["mise run terraform-fmt", "mise run terraform-validate", "mise run ansible", "mise run kubernetes", "mise run publication-scan"]
