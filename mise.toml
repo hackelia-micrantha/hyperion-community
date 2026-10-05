@@ -33,8 +33,8 @@ run = "python tests/publication_scan.py"
 
 [tasks.lint]
 depends = ["bootstrap-python"]
-run = ["mise run terraform-fmt", "mise run ansible", "mise run publication-scan"]
+run = ["mise run terraform-fmt", "mise run ansible", "mise run publication-audit"]
 
 [tasks.ci]
 depends = ["doctor"]
-run = ["mise run terraform-fmt", "mise run terraform-validate", "mise run ansible", "mise run kubernetes", "mise run publication-scan"]
+run = ["mise run terraform-fmt", "mise run terraform-validate", "mise run ansible", "mise run kubernetes", "mise run publication-audit"]
