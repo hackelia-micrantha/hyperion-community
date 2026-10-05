@@ -1,40 +1,131 @@
-min_version = "2026.8.2"
+min_version = "2026.10.3"
+
+[env]
+_.path = ["{{ config_root }}/.venv/bin"]
 
 [tools]
-opentofu = "1.9.0"
-kubectl = "1.31.4"
-python = "3.12"
-kubeconform = "0.6.7"
+opentofu = "1.13.1"
+kubectl = "1.37.1"
+flux2 = "2.9.6"
+tflint = "0.64.0"
+kubeconform = "0.8.0"
+trivy = "0.75.0"
+python = "3.13.16"
 
 [tasks.bootstrap-python]
-sources = ["requirements-ci.txt"]
-outputs = [".venv/bin/ansible-playbook", ".venv/bin/ansible-lint"]
-run = "python -m venv .venv && .venv/bin/python -m pip install --disable-pip-version-check --requirement requirements-ci.txt"
+description = "Create the pinned Python validation environment without relocating a venv"
+sources = ["requirements-ci.txt", "mise.toml"]
+outputs = [".venv/.requirements.sha256"]
+run = '''
+set -eu
+wanted="$(sha256sum requirements-ci.txt | cut -d ' ' -f 1)"
+if [ -x .venv/bin/ansible-playbook ] && [ -x .venv/bin/ansible-lint ] &&
+   [ -x .venv/bin/checkov ] && [ -f .venv/.requirements.sha256 ] &&
+   [ "$(cat .venv/.requirements.sha256)" = "$wanted" ]; then
+  exit 0
+fi
+rm -rf .venv
+python -m venv .venv
+.venv/bin/python -m pip install --disable-pip-version-check --requirement requirements-ci.txt
+printf '%s\n' "$wanted" > .venv/.requirements.sha256
+'''
 
 [tasks.doctor]
+description = "Verify the public validation toolchain"
 depends = ["bootstrap-python"]
-run = "for tool in tofu kubectl kubeconform python; do command -v $tool >/dev/null || exit 1; done; test -x .venv/bin/ansible-playbook; test -x .venv/bin/ansible-lint"
+run = '''
+set -eu
+for tool in tofu kubectl flux tflint kubeconform trivy python ansible-playbook ansible-lint checkov; do
+  command -v "$tool" >/dev/null 2>&1 || {
+    echo "missing required tool: $tool" >&2
+    exit 1
+  }
+done
+echo "Hyperion Community toolchain is ready"
+'''
 
 [tasks.terraform-fmt]
-run = "tofu fmt -check -recursive"
+description = "Check OpenTofu/Terraform formatting"
+run = "tofu fmt -check -recursive terraform examples"
 
 [tasks.terraform-validate]
-run = "tofu -chdir=examples/local init -backend=false && tofu -chdir=examples/local validate"
+description = "Validate the provider-free public Terraform example"
+run = '''
+set -eu
+tofu -chdir=examples/local init -backend=false -input=false
+tofu -chdir=examples/local validate
+'''
+
+[tasks.tflint]
+description = "Lint the public Terraform example"
+run = "tflint --chdir examples/local"
 
 [tasks.ansible]
+description = "Syntax-check, check-mode execute, and lint the public Ansible slice"
 depends = ["bootstrap-python"]
-run = "ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-playbook -i localhost, ansible/playbooks/reference.yml --syntax-check && ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-playbook -i localhost, ansible/playbooks/reference.yml --check && ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-lint ansible/"
+run = '''
+set -eu
+ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook -i localhost, ansible/playbooks/reference.yml --syntax-check
+ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook -i localhost, ansible/playbooks/reference.yml --check
+ANSIBLE_CONFIG=ansible/ansible.cfg ansible-lint ansible/
+'''
 
 [tasks.kubernetes]
-run = "kubectl kustomize k8s/base > /tmp/hyperion-base.yaml && kubectl kustomize k8s/examples/local > /tmp/hyperion-local.yaml && kubeconform -strict -summary -kubernetes-version 1.31.0 /tmp/hyperion-base.yaml /tmp/hyperion-local.yaml"
+description = "Render and schema-validate the synthetic Kubernetes fixtures"
+run = '''
+set -eu
+kubectl kustomize k8s/base > /tmp/hyperion-base.yaml
+kubectl kustomize k8s/examples/local > /tmp/hyperion-local.yaml
+kubeconform -strict -summary -kubernetes-version 1.37.0 /tmp/hyperion-base.yaml /tmp/hyperion-local.yaml
+'''
 
-[tasks.publication-scan]
-run = "python tests/publication_scan.py"
+[tasks.publication-audit]
+description = "Reject representative private/deployment leakage classes"
+run = "python scripts/publication_audit.py ."
+
+[tasks.test]
+description = "Run publication-boundary regression tests"
+run = "python -m unittest discover -s tests -v"
+
+[tasks.trivy]
+description = "Scan public IaC and Kubernetes configuration"
+run = '''
+set -eu
+for target in terraform examples k8s; do
+  trivy config --skip-dirs .venv --skip-dirs .terraform --exit-code 1 --severity HIGH,CRITICAL "$target"
+done
+'''
+
+[tasks.checkov]
+description = "Run Terraform and Kubernetes policy checks"
+depends = ["bootstrap-python"]
+run = '''
+set -eu
+checkov -d terraform -d examples --framework terraform --quiet
+checkov -d k8s --framework kubernetes --quiet
+'''
 
 [tasks.lint]
+description = "Run fast source/publication checks"
 depends = ["bootstrap-python"]
-run = ["mise run terraform-fmt", "mise run ansible", "mise run publication-audit"]
+run = [
+  "mise run terraform-fmt",
+  "mise run ansible",
+  "mise run publication-audit",
+  "mise run test",
+]
 
 [tasks.ci]
+description = "Run the complete public validation suite"
 depends = ["doctor"]
-run = ["mise run terraform-fmt", "mise run terraform-validate", "mise run ansible", "mise run kubernetes", "mise run publication-audit"]
+run = [
+  "mise run terraform-fmt",
+  "mise run terraform-validate",
+  "mise run tflint",
+  "mise run ansible",
+  "mise run kubernetes",
+  "mise run publication-audit",
+  "mise run test",
+  "mise run trivy",
+  "mise run checkov",
+]
