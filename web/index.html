@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Hyperion Community: deployment-neutral, inspectable platform-engineering reference components.">
+  <meta name="description" content="Hyperion Community publishes reusable, deployment-neutral platform engineering components for infrastructure, Kubernetes, GitOps, CI, and security validation.">
   <title>Hyperion Community</title>
   <style>
     :root{color-scheme:light;--canvas:#fff;--surface:#f5f5f5;--text:#111;--muted:#555;--border:#999;--link:#0000ee;--sage:#e5f0e6;--blue:#e7eef8;--sand:#f4eddc;--lilac:#eee7f4;--peach:#f7e7de}
@@ -20,34 +20,34 @@
 </head>
 <body>
 <div class="page">
-  <div class="topbar"><div class="brand">Hyperion Community</div><nav class="nav" aria-label="Primary"><a href="#scope">Scope</a><a href="#implementation">Implementation</a><a href="#verification">Verification</a><a href="#boundary">Boundary</a></nav></div>
+  <div class="topbar"><div class="brand">Hyperion Community</div><nav class="nav" aria-label="Primary"><a href="#scope">Components</a><a href="#implementation">Repository</a><a href="#verification">Verification</a><a href="#boundary">Trust boundary</a></nav></div>
   <main>
     <header class="hero">
       <h1>Reusable platform engineering for reproducible infrastructure</h1>
-      <p class="lead">Hyperion Community contains reusable, deployment-neutral components of a privately operated infrastructure platform. Environment configuration, credentials, live cluster state, and deployment-specific composition remain private.</p>
+      <p class="lead">Hyperion Community is the public, reusable part of Hyperion: deployment-neutral building blocks for infrastructure, K3s bootstrap, Kubernetes configuration, GitOps, and verification. Live environment configuration, credentials, cluster state, and deployment-specific composition stay private.</p>
     </header>
-    <section id="scope"><h2 class="section-title">Current scope</h2><div class="list">
-      <p><strong>OpenTofu/Terraform.</strong> Synthetic infrastructure contracts that require no cloud credentials.</p>
-      <p><strong>Ansible/K3s.</strong> Fail-safe bootstrap automation with checksum-verified opt-in binary installation.</p>
-      <p><strong>Kubernetes/Kustomize.</strong> Synthetic hardened manifests with Pod Security and network policy.</p>
-      <p><strong>Flux/GitOps.</strong> Immutable-source consumption guidance; no private bootstrap credentials.</p>
-      <p><strong>CI and publication hygiene.</strong> Pinned tooling, hosted read-only CI, IaC scanners, and leakage tests.</p>
+    <section id="scope"><h2 class="section-title">Reusable building blocks</h2><div class="list">
+      <p><strong>OpenTofu/Terraform.</strong> Provider-free infrastructure contracts with credential-free reference examples.</p>
+      <p><strong>Ansible/K3s.</strong> Non-mutating-by-default K3s bootstrap automation with explicit, checksum-verified binary installation.</p>
+      <p><strong>Kubernetes/Kustomize.</strong> Hardened reference workloads with restricted Pod Security and default-deny network policy.</p>
+      <p><strong>Flux/GitOps.</strong> Pinned Flux tooling and an immutable-source consumption pattern without private bootstrap credentials.</p>
+      <p><strong>Verification and publication safety.</strong> Reproducible tooling, hosted read-only CI, IaC scanning, and tests that guard the public/private boundary.</p>
     </div></section>
-    <section id="implementation"><h2 class="section-title">What is implemented</h2><div class="grid">
-      <div class="card"><h3>Infrastructure contract</h3><p><code>terraform/modules/</code> and <code>examples/local/</code></p></div>
-      <div class="card"><h3>Host bootstrap</h3><p><code>ansible/roles/k3s/</code> and a non-mutating validation playbook</p></div>
-      <div class="card"><h3>Runtime fixture</h3><p>Digest-pinned workload, restricted namespace, ServiceAccount and NetworkPolicies</p></div>
-      <div class="card"><h3>Security boundary</h3><p>Threat model, publication classification, Trivy/Checkov and deterministic audit tests</p></div>
+    <section id="implementation"><h2 class="section-title">In the repository</h2><div class="grid">
+      <div class="card"><h3>Infrastructure contract</h3><p>Reusable provider-free module plus a local reference consumer in <code>examples/local/</code>.</p></div>
+      <div class="card"><h3>Host bootstrap</h3><p>K3s role plus a non-mutating public validation playbook.</p></div>
+      <div class="card"><h3>Hardened runtime example</h3><p>Digest-pinned workload, restricted namespace, ServiceAccount, and NetworkPolicies.</p></div>
+      <div class="card"><h3>Security and publication checks</h3><p>Threat model, provenance review, Trivy, Checkov, and deterministic publication-audit tests.</p></div>
     </div></section>
-    <section id="verification"><h2 class="section-title">Fresh-clone verification</h2><div class="list">
+    <section id="verification"><h2 class="section-title">Verify from a fresh clone</h2><div class="list">
       <p><code>mise install</code></p><p><code>mise run doctor</code></p><p><code>mise run lint</code></p><p><code>mise run ci</code></p>
-      <p>The first slice validates a real public source tree and synthetic runtime fixtures; it does not claim complete K3s lifecycle or production portability.</p>
+      <p>The verification path is real but intentionally bounded: it validates source, reference examples, rendered manifests, and security checks without deploying infrastructure. End-to-end K3s lifecycle and production cloud provisioning are not yet claimed.</p>
     </div></section>
-    <section id="boundary"><h2 class="section-title">Public/private boundary</h2><div class="list">
-      <p>Public examples are purpose-built synthetic inputs, not redacted live environment files.</p>
-      <p>Real inventories, overlays, credentials, encrypted deployment material, topology, operator paths, and private integrations remain private.</p>
-      <p>Reusable components move to public ownership only after provenance, compatibility, security, and validation gates pass.</p>
-      <p>Hyperion Community is licensed under Apache-2.0; privately operated source remains separately licensed and private.</p>
+    <section id="boundary"><h2 class="section-title">Public/private trust boundary</h2><div class="list">
+      <p>Public examples are purpose-built reference inputs, not redacted copies of live environments.</p>
+      <p>Live inventories, cluster overlays, credentials, encrypted deployment material, topology, private integrations, and deployment-specific composition are not part of this distribution.</p>
+      <p>Components are published only after provenance, security, and validation review.</p>
+      <p>Apache-2.0 applies to Hyperion Community only. Private Hyperion deployment source is separate and remains private.</p>
     </div></section>
   </main>
   <footer><span>Hyperion Community · Apache-2.0 · October 5, 2026</span><span><a href="https://github.com/hackelia-micrantha/hyperion-community">Source and documentation</a></span></footer>
