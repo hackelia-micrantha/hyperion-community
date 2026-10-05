@@ -1,7 +1,9 @@
 ---
-- name: Validate public Hyperion K3s role
+- name: Validate public Hyperion K3s bootstrap role
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: true
   roles:
     - role: k3s
+      vars:
+        k3s_install_binary: false
