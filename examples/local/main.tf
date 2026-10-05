@@ -3,12 +3,14 @@ terraform {
 }
 
 module "reference_environment" {
-  source       = "../../terraform/modules/reference_environment"
+  source = "../../terraform/modules/reference_environment"
+
   name         = "hyperion-local"
-  cluster_cidr = "10.42.0.0/16"
-  service_cidr = "10.43.0.0/16"
+  cluster_cidr = "192.0.2.0/24"
+  service_cidr = "198.51.100.0/24"
 }
 
 output "environment" {
-  value = module.reference_environment.environment
+  description = "Synthetic local reference values; no external resources are created."
+  value       = module.reference_environment.environment
 }
