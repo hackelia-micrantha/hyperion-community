@@ -128,10 +128,10 @@
 
       .eyebrow,
       .section-title,
-      .ledger-item h4,
+      .ledger-item h3,
       .architecture-block h3,
       .capability h3,
-      .benefit-tile h4,
+      .benefit-tile h3,
       .env-row strong,
       .footer-title {
         font-size: 0.875rem;
@@ -269,10 +269,10 @@
         background: var(--canvas);
       }
 
-      .ledger-item h4,
+      .ledger-item h3,
       .architecture-block h3,
       .capability h3,
-      .benefit-tile h4 {
+      .benefit-tile h3 {
         margin: 0 0 0.35rem;
       }
 
@@ -375,17 +375,15 @@
           padding: 0.75rem 0 0;
         }
 
-        .ledger,
-        .architecture-grid {
+        .ledger {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .architecture-block:nth-child(2)::after {
-          content: "";
+        .architecture-grid {
+          grid-template-columns: 1fr;
         }
 
-        .architecture-block:nth-child(1)::after,
-        .architecture-block:nth-child(3)::after {
+        .architecture-block:not(:last-child)::after {
           content: "↓";
           top: auto;
           right: 50%;
