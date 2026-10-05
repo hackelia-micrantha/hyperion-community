@@ -1,31 +1,42 @@
 # Publication boundary review
 
-Reviewed private source: `hackelia-micrantha/hyperion` `main` at `fc35b8c0ee9911ecaf37636d5eacfb99f24f4b79`. This records provenance only; private Git history is not imported.
+Hyperion Community is a clean public implementation surface, not a mirror of the privately operated platform. Exact private-source revision evidence is retained in private operational tracking rather than embedded in this public repository.
 
-| Private path | Classification | Public treatment |
+Private Git history is never imported. Reusable concepts cross the boundary only after review, and deployment-specific data is replaced by purpose-built synthetic fixtures rather than redacted live files.
+
+| Component family | Classification | Public treatment |
 |---|---|---|
-| `terraform/modules/` | PUBLIC-AFTER-SANITIZATION | Generic patterns only; remove deployment identities and assumptions. |
-| `terraform/environments/` | PRIVATE-DEPLOYMENT | Synthetic `examples/local/` instead. |
-| `cloud-init/` | PUBLIC-AFTER-SANITIZATION | Rework identities and credentials first. |
-| `ansible/roles/k3s/` | PUBLIC-AFTER-SANITIZATION | Remove deployment user paths and harden downloads. |
-| `ansible/roles/common/` | PUBLIC-AFTER-SANITIZATION | Review individual generic tasks. |
-| `ansible/roles/security/` | PUBLIC-AFTER-SANITIZATION | Generic hardening only; no real key configuration. |
-| `ansible/roles/flux/` | PUBLIC-AFTER-SANITIZATION | Private repository identity/credentials require redesign. |
-| `ansible/inventories/` | PRIVATE-DEPLOYMENT | Never copy real inventories. |
-| `k8s-gitops/**/base/` | PUBLIC-EXAMPLE-ONLY | Existing base reveals service inventory; use synthetic manifests. |
-| `k8s-gitops/**/overlays/` | PRIVATE-DEPLOYMENT | Environment/domain topology remains private. |
-| `k8s-gitops/secrets/`, `*.enc.yaml` | PRIVATE-SECURITY | Do not publish deployment ciphertext. |
-| `.sops.yaml` | PRIVATE-SECURITY | Real recipient/key policy remains private. |
-| deployment workflows | PRIVATE-DEPLOYMENT | Live credential interfaces/assumptions remain private. |
-| standards workflow | PUBLIC-AFTER-SANITIZATION | Reuse rootless validation pattern on public runners. |
-| `mise.toml` | PUBLIC-AFTER-SANITIZATION | Reuse task interface without private assumptions. |
-| `scripts/` | NEEDS-DECISION | Review individually. |
-| `docs/` | NEEDS-DECISION | Publish architecture concepts, not operational details. |
-| AI/prompt/context | PRIVATE-SECURITY | Keep operational context private initially. |
-| Dubnium integration | PRIVATE-SECURITY | Keep runner/capability details private initially. |
-| application/service manifests | PRIVATE-DEPLOYMENT | Use synthetic examples. |
-| legacy Make interface | OBSOLETE | Public interface is `mise`. |
+| `terraform/modules/` patterns | PUBLIC-AFTER-SANITIZATION | Publish deployment-neutral modules only after removing environment identities and assumptions. |
+| Terraform environment roots, backends, state composition | PRIVATE-DEPLOYMENT | Use synthetic/provider-free examples publicly. |
+| cloud-init patterns | PUBLIC-AFTER-SANITIZATION | Rebuild around synthetic identities and secret-free defaults. |
+| generic `ansible/roles/` | PUBLIC-AFTER-SANITIZATION | Publish individually reviewed roles with deployment-neutral inputs. |
+| Ansible inventories, host/group vars, Vault material | PRIVATE-DEPLOYMENT / PRIVATE-SECURITY | Never copy live inventories or secret-bearing configuration. |
+| K3s bootstrap patterns | PUBLIC-AFTER-SANITIZATION | Publish bounded primitives; no live tokens, users, addresses, or operator paths. |
+| Flux/GitOps support | PUBLIC-AFTER-SANITIZATION / PUBLIC-EXAMPLE-ONLY | Publish immutable-source patterns; keep live bootstrap credentials and environment reconciliation private. |
+| `k8s-gitops/` application/service base | PUBLIC-EXAMPLE-ONLY | Live service inventory stays private; public manifests are synthetic equivalents. |
+| cluster/environment overlays | PRIVATE-DEPLOYMENT | Do not publish production/staging/dev composition. |
+| `.sops.yaml`, age recipients, SOPS/Vault ciphertext | PRIVATE-SECURITY | Never publish live deployment material merely because it is encrypted. |
+| deployment workflows with credential interfaces | PRIVATE-SECURITY | Remain private. |
+| reusable validation workflows | PUBLIC-AFTER-SANITIZATION | Rewrite for hosted, least-privilege CI with no live infrastructure assumptions. |
+| `mise.toml` task interface | PUBLIC-AFTER-SANITIZATION | Public tasks own only public verification paths. |
+| operational `scripts/` | NEEDS-DECISION | Review one-by-one; do not bulk-copy. |
+| architecture/security `docs/` | PUBLIC-AFTER-SANITIZATION | Publish public contracts, not topology or operator details. |
+| AI/prompt/context documents | PRIVATE-SECURITY | Outside the initial public distribution. |
+| Dubnium/runner/capability integration | PRIVATE-SECURITY | Secondary; publish only future deployment-neutral contracts after separate review. |
+| application/service manifests | PRIVATE-DEPLOYMENT | Replace with synthetic examples. |
+| legacy Make compatibility surface | OBSOLETE for public distribution | The public task interface is mise. |
 
-The reviewed private tree contains deployment-specific domains, filesystem paths, inventories, private address material, VPN integration, encrypted secret configuration, and application/service names. This justifies synthetic reconstruction rather than bulk copying.
+## Synthetic fixture rules
 
-Target ownership is public for reusable deployment-neutral components and private for environment composition. Private Hyperion should consume stable public-owned components in a later synchronization phase.
+Public fixtures use:
+
+- `example.com` names and documentation-only identities;
+- documentation address ranges where network values are needed;
+- no private keys, passwords, API tokens, or real encrypted secrets;
+- no live/private hostnames, inventories, or operator filesystem paths;
+- no private repository identifiers or exact private provenance revisions;
+- no production application/service inventory.
+
+## Review rule
+
+A component crosses the boundary only when the exact candidate passes publication audit, static/security checks, documentation consistency review, and the applicable merge gate. Uncertainty resolves to private-by-default.
