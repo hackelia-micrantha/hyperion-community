@@ -23,7 +23,7 @@ run = "tofu -chdir=examples/local init -backend=false && tofu -chdir=examples/lo
 
 [tasks.ansible]
 depends = ["bootstrap-python"]
-run = "ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-playbook -i localhost, ansible/playbooks/reference.yml --syntax-check && ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-playbook -i localhost, ansible/playbooks/reference.yml --check && .venv/bin/ansible-lint ansible/"
+run = "ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-playbook -i localhost, ansible/playbooks/reference.yml --syntax-check && ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-playbook -i localhost, ansible/playbooks/reference.yml --check && ANSIBLE_CONFIG=ansible/ansible.cfg .venv/bin/ansible-lint ansible/"
 
 [tasks.kubernetes]
 run = "kubectl kustomize k8s/base > /tmp/hyperion-base.yaml && kubectl kustomize k8s/examples/local > /tmp/hyperion-local.yaml && kubeconform -strict -summary -kubernetes-version 1.31.0 /tmp/hyperion-base.yaml /tmp/hyperion-local.yaml"
