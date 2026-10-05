@@ -1,0 +1,7 @@
+---
+- name: Validate public Hyperion K3s role
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - role: k3s
