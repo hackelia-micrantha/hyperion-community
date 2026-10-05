@@ -1,0 +1,14 @@
+---
+- name: Validate K3s role inputs
+  ansible.builtin.assert:
+    that:
+      - k3s_version is match('^v[0-9]+\.[0-9]+\.[0-9]+\+k3s[0-9]+$')
+      - k3s_cluster_cidr | length > 0
+      - k3s_service_cidr | length > 0
+
+- name: Report deployment-neutral K3s contract
+  ansible.builtin.debug:
+    msg:
+      version: "{{ k3s_version }}"
+      cluster_cidr: "{{ k3s_cluster_cidr }}"
+      service_cidr: "{{ k3s_service_cidr }}"
