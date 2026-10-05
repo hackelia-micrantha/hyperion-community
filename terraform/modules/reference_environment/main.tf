@@ -14,13 +14,25 @@ variable "name" {
 }
 
 variable "cluster_cidr" {
-  type    = string
-  default = "10.42.0.0/16"
+  description = "Synthetic pod network used only by the reference contract."
+  type        = string
+  default     = "192.0.2.0/24"
+
+  validation {
+    condition     = can(cidrnetmask(var.cluster_cidr))
+    error_message = "cluster_cidr must be valid CIDR notation."
+  }
 }
 
 variable "service_cidr" {
-  type    = string
-  default = "10.43.0.0/16"
+  description = "Synthetic service network used only by the reference contract."
+  type        = string
+  default     = "198.51.100.0/24"
+
+  validation {
+    condition     = can(cidrnetmask(var.service_cidr))
+    error_message = "service_cidr must be valid CIDR notation."
+  }
 }
 
 resource "terraform_data" "reference" {
@@ -32,5 +44,6 @@ resource "terraform_data" "reference" {
 }
 
 output "environment" {
-  value = terraform_data.reference.output
+  description = "Synthetic, non-deploying reference environment contract."
+  value       = terraform_data.reference.output
 }
