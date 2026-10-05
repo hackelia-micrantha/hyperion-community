@@ -1,0 +1,58 @@
+---
+- name: Validate exact K3s release pin
+  ansible.builtin.assert:
+    that:
+      - k3s_version is match('^v[0-9]+\\.[0-9]+\\.[0-9]+\\+k3s[0-9]+$')
+    fail_msg: "k3s_version must be an exact K3s release tag."
+
+- name: Resolve K3s release architecture
+  ansible.builtin.set_fact:
+    k3s_release_arch: "{{ k3s_arch_map.get(ansible_architecture, '') }}"
+    k3s_release_tag_url: "{{ k3s_version | urlencode }}"
+  vars:
+    k3s_arch_map:
+      x86_64: amd64
+      aarch64: arm64
+      armv7l: armhf
+      armv6l: armhf
+  when: k3s_install_binary
+
+- name: Require a supported K3s architecture
+  ansible.builtin.assert:
+    that:
+      - k3s_release_arch | length > 0
+    fail_msg: "Unsupported architecture for the public K3s bootstrap role."
+  when: k3s_install_binary
+
+- name: Fetch upstream K3s checksum list
+  ansible.builtin.uri:
+    url: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_release_tag_url }}/sha256sum-{{ k3s_release_arch }}.txt"
+    return_content: true
+  register: k3s_checksum_list
+  when: k3s_install_binary
+
+- name: Select checksum line for the K3s binary
+  ansible.builtin.set_fact:
+    k3s_checksum_matches: "{{ k3s_checksum_list.content.splitlines() | select('search', ' k3s$') | list }}"
+  when: k3s_install_binary
+
+- name: Require exactly one K3s binary checksum
+  ansible.builtin.assert:
+    that:
+      - k3s_checksum_matches | length == 1
+    fail_msg: "Could not resolve exactly one upstream checksum for the K3s binary."
+  when: k3s_install_binary
+
+- name: Derive K3s binary checksum
+  ansible.builtin.set_fact:
+    k3s_binary_checksum: "sha256:{{ k3s_checksum_matches[0].split()[0] }}"
+  when: k3s_install_binary
+
+- name: Download checksum-verified K3s binary
+  ansible.builtin.get_url:
+    url: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_release_tag_url }}/k3s"
+    dest: "{{ k3s_binary_path }}"
+    mode: "0755"
+    checksum: "{{ k3s_binary_checksum }}"
+  become: true
+  when: k3s_install_binary

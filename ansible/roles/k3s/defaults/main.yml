@@ -1,0 +1,5 @@
+---
+# Public bootstrap is non-mutating unless explicitly enabled by the caller.
+k3s_install_binary: false
+k3s_version: "v1.37.1+k3s1"
+k3s_binary_path: "/usr/local/bin/k3s"
