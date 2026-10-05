@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Hyperion Community publishes reusable, deployment-neutral platform engineering components for infrastructure, Kubernetes, GitOps, CI, and security validation.">
+  <meta name="description" content="Hyperion Community publishes reusable, deployment-neutral platform engineering components for infrastructure provisioning, K3s, Kubernetes, GitOps, CI, and security validation.">
   <title>Hyperion Community</title>
   <style>
     :root{color-scheme:light;--canvas:#fff;--surface:#f5f5f5;--text:#111;--muted:#555;--border:#999;--link:#0000ee;--sage:#e5f0e6;--blue:#e7eef8;--sand:#f4eddc;--lilac:#eee7f4;--peach:#f7e7de}
@@ -24,13 +24,13 @@
   <main>
     <header class="hero">
       <h1>Reusable platform engineering for reproducible infrastructure</h1>
-      <p class="lead">Hyperion Community is the public, reusable part of Hyperion: deployment-neutral building blocks for infrastructure, K3s bootstrap, Kubernetes configuration, GitOps, and verification. Live environment configuration, credentials, cluster state, and deployment-specific composition stay private.</p>
+      <p class="lead">Hyperion Community is the public, reusable distribution of Hyperion: deployment-neutral building blocks for infrastructure provisioning, K3s bootstrap, Kubernetes runtime configuration, GitOps, and verification. Live environment configuration, credentials, cluster state, and deployment-specific composition stay private.</p>
     </header>
-    <section id="scope"><h2 class="section-title">Reusable building blocks</h2><div class="list">
-      <p><strong>OpenTofu/Terraform.</strong> Provider-free infrastructure contracts with credential-free reference examples.</p>
-      <p><strong>Ansible/K3s.</strong> Non-mutating-by-default K3s bootstrap automation with explicit, checksum-verified binary installation.</p>
+    <section id="scope"><h2 class="section-title">Reusable platform building blocks</h2><div class="list">
+      <p><strong>OpenTofu/Terraform.</strong> Provider-free reference infrastructure modules that validate without cloud credentials.</p>
+      <p><strong>Ansible/K3s.</strong> K3s bootstrap automation that validates safely by default; binary installation is explicit and checksum-verified.</p>
       <p><strong>Kubernetes/Kustomize.</strong> Hardened reference workloads with restricted Pod Security and default-deny network policy.</p>
-      <p><strong>Flux/GitOps.</strong> Pinned Flux tooling and an immutable-source consumption pattern without private bootstrap credentials.</p>
+      <p><strong>Flux/GitOps.</strong> Pinned Flux tooling and a GitOps pattern for consuming reviewed immutable revisions without private bootstrap credentials.</p>
       <p><strong>Verification and publication safety.</strong> Reproducible tooling, hosted read-only CI, IaC scanning, and tests that guard the public/private boundary.</p>
     </div></section>
     <section id="implementation"><h2 class="section-title">In the repository</h2><div class="grid">
@@ -40,14 +40,15 @@
       <div class="card"><h3>Security and publication checks</h3><p>Threat model, provenance review, Trivy, Checkov, and deterministic publication-audit tests.</p></div>
     </div></section>
     <section id="verification"><h2 class="section-title">Verify from a fresh clone</h2><div class="list">
+      <p>With <code>mise</code> installed, run the same verification contract used by CI:</p>
       <p><code>mise install</code></p><p><code>mise run doctor</code></p><p><code>mise run lint</code></p><p><code>mise run ci</code></p>
-      <p>The verification path is real but intentionally bounded: it validates source, reference examples, rendered manifests, and security checks without deploying infrastructure. End-to-end K3s lifecycle and production cloud provisioning are not yet claimed.</p>
+      <p>The basic path needs no private repository, cluster, cloud credential, or deployment secret. It validates source, reference examples, rendered manifests, and security checks without deploying infrastructure; end-to-end K3s lifecycle and production cloud provisioning remain outside the supported scope.</p>
     </div></section>
     <section id="boundary"><h2 class="section-title">Public/private trust boundary</h2><div class="list">
       <p>Public examples are purpose-built reference inputs, not redacted copies of live environments.</p>
       <p>Live inventories, cluster overlays, credentials, encrypted deployment material, topology, private integrations, and deployment-specific composition are not part of this distribution.</p>
       <p>Components are published only after provenance, security, and validation review.</p>
-      <p>Apache-2.0 applies to Hyperion Community only. Private Hyperion deployment source is separate and remains private.</p>
+      <p>The Apache-2.0 license applies to Hyperion Community only. Private Hyperion deployment source is a separate codebase and remains private.</p>
     </div></section>
   </main>
   <footer><span>Hyperion Community · Apache-2.0 · October 5, 2026</span><span><a href="https://github.com/hackelia-micrantha/hyperion-community">Source and documentation</a></span></footer>
