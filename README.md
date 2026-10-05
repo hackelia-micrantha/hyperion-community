@@ -27,7 +27,7 @@ mise run ci
 
 The basic path requires no private repository, private cluster, cloud credential, or deployment secret.
 
-CI initializes only the provider-free synthetic Terraform example, executes the Ansible example in check mode, renders synthetic Kubernetes manifests, and runs static/publication security checks. It does not deploy infrastructure. The merge gate is evaluated against the exact candidate revision.
+CI initializes only the provider-free synthetic Terraform example, executes the Ansible example in check mode, renders synthetic Kubernetes manifests, and runs static/publication security checks. It does not deploy infrastructure.
 
 ## Repository layout
 
