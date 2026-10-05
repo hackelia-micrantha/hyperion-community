@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Hyperion Community: deployment-neutral, inspectable infrastructure-platform reference components.">
+  <meta name="description" content="Hyperion Community: deployment-neutral, inspectable platform-engineering reference components.">
   <title>Hyperion Community</title>
   <style>
     :root{color-scheme:light;--canvas:#fff;--surface:#f5f5f5;--text:#111;--muted:#555;--border:#999;--link:#0000ee;--sage:#e5f0e6;--blue:#e7eef8;--sand:#f4eddc;--lilac:#eee7f4;--peach:#f7e7de}
@@ -14,7 +14,7 @@
     section{border:1px solid var(--border);margin-top:1.25rem}.section-title{font-size:.9rem;margin:0;padding:.4rem .6rem;border-bottom:1px solid var(--border)}section:nth-of-type(5n+1) .section-title{background:var(--sage)}section:nth-of-type(5n+2) .section-title{background:var(--blue)}section:nth-of-type(5n+3) .section-title{background:var(--sand)}section:nth-of-type(5n+4) .section-title{background:var(--lilac)}section:nth-of-type(5n) .section-title{background:var(--peach)}
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;padding:.75rem}.card{border:1px solid var(--border);padding:.7rem}.card h3{font-size:.9rem;margin:0 0 .3rem}.card p{margin:0;color:var(--muted)}
     .list{padding:.25rem .75rem}.list p{padding:.45rem 0;margin:0;border-bottom:1px solid #ddd}.list p:last-child{border:0}
-    footer{border-top:1px solid var(--border);margin-top:1.5rem;padding:.75rem 0;color:var(--muted);font-size:.875rem}
+    footer{border-top:1px solid var(--border);margin-top:1.5rem;padding:.75rem 0;color:var(--muted);font-size:.875rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     @media(max-width:650px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
@@ -28,28 +28,29 @@
     </header>
     <section id="scope"><h2 class="section-title">Current scope</h2><div class="list">
       <p><strong>OpenTofu/Terraform.</strong> Synthetic infrastructure contracts that require no cloud credentials.</p>
-      <p><strong>Ansible.</strong> A deployment-neutral K3s configuration contract and validation path.</p>
-      <p><strong>Kubernetes/Kustomize.</strong> Synthetic hardened manifests for render/schema validation.</p>
-      <p><strong>CI and publication hygiene.</strong> Pinned tooling, hosted CI, and leakage checks.</p>
+      <p><strong>Ansible/K3s.</strong> Fail-safe bootstrap automation with checksum-verified opt-in binary installation.</p>
+      <p><strong>Kubernetes/Kustomize.</strong> Synthetic hardened manifests with Pod Security and network policy.</p>
+      <p><strong>Flux/GitOps.</strong> Immutable-source consumption guidance; no private bootstrap credentials.</p>
+      <p><strong>CI and publication hygiene.</strong> Pinned tooling, hosted read-only CI, IaC scanners, and leakage tests.</p>
     </div></section>
     <section id="implementation"><h2 class="section-title">What is implemented</h2><div class="grid">
       <div class="card"><h3>Infrastructure contract</h3><p><code>terraform/modules/</code> and <code>examples/local/</code></p></div>
-      <div class="card"><h3>Host contract</h3><p><code>ansible/roles/</code> and a local validation playbook</p></div>
-      <div class="card"><h3>Runtime fixture</h3><p><code>k8s/base/</code> plus a synthetic local Kustomize example</p></div>
-      <div class="card"><h3>Security boundary</h3><p>Threat model, publication classification, and automated scan</p></div>
+      <div class="card"><h3>Host bootstrap</h3><p><code>ansible/roles/k3s/</code> and a non-mutating validation playbook</p></div>
+      <div class="card"><h3>Runtime fixture</h3><p>Digest-pinned workload, restricted namespace, ServiceAccount and NetworkPolicies</p></div>
+      <div class="card"><h3>Security boundary</h3><p>Threat model, publication classification, Trivy/Checkov and deterministic audit tests</p></div>
     </div></section>
-    <section id="verification"><h2 class="section-title">Verification</h2><div class="list">
+    <section id="verification"><h2 class="section-title">Fresh-clone verification</h2><div class="list">
       <p><code>mise install</code></p><p><code>mise run doctor</code></p><p><code>mise run lint</code></p><p><code>mise run ci</code></p>
-      <p>The first slice validates configuration; it does not yet claim a complete disposable K3s deployment or production portability.</p>
+      <p>The first slice validates a real public source tree and synthetic runtime fixtures; it does not claim complete K3s lifecycle or production portability.</p>
     </div></section>
     <section id="boundary"><h2 class="section-title">Public/private boundary</h2><div class="list">
-      <p>Public examples use synthetic values rather than redacted live environment files.</p>
+      <p>Public examples are purpose-built synthetic inputs, not redacted live environment files.</p>
       <p>Real inventories, overlays, credentials, encrypted deployment material, topology, operator paths, and private integrations remain private.</p>
-      <p>Reusable components move to public ownership only after provenance, compatibility, and validation gates pass.</p>
-      <p>This public distribution is licensed under Apache-2.0. The private operational repository remains separately licensed.</p>
+      <p>Reusable components move to public ownership only after provenance, compatibility, security, and validation gates pass.</p>
+      <p>Hyperion Community is licensed under Apache-2.0; privately operated source remains separately licensed and private.</p>
     </div></section>
   </main>
-  <footer>Hyperion Community · evidence-backed public reference slice · <a href="https://github.com/hackelia-micrantha/hyperion-community">source repository</a></footer>
+  <footer><span>Hyperion Community · Apache-2.0 · October 5, 2026</span><span><a href="https://github.com/hackelia-micrantha/hyperion-community">Source and documentation</a></span></footer>
 </div>
 </body>
 </html>
