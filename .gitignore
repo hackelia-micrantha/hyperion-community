@@ -2,8 +2,12 @@
 .terraform.lock.hcl
 .venv/
 .mise/
+__pycache__/
+*.pyc
 *.tfstate
 *.tfstate.*
 *.tfplan
 __pycache__/
 *.py[cod]
+
+.ansible/
