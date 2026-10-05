@@ -47,4 +47,4 @@ This is an initial extraction. The validation path is real; the example infrastr
 
 ## License
 
-Licensing is intentionally pending the provenance and compatibility review tracked in issue #5. Repository visibility is not a license grant. The private Hyperion repository remains separately licensed and private.
+Hyperion Community is licensed under the Apache License 2.0. The private Hyperion repository remains separately licensed and private.
