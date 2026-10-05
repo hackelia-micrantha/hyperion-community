@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-phyllotaxis-profile="utility">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,448 +8,465 @@
       content="Hyperion is a GitOps-driven infrastructure and application deployment platform spanning local and multi-cloud environments."
     />
     <title>Hyperion</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
     <style>
       :root {
         color-scheme: light;
-        --paper: #f6f4ef;
-        --ink: #121417;
-        --steel: #5b6570;
-        --accent: #1c7d7a;
-        --accent-2: #c86a3a;
-        --accent-soft: rgba(28, 125, 122, 0.12);
-        --line: rgba(18, 20, 23, 0.12);
-        --shadow: 0 12px 40px rgba(18, 20, 23, 0.08);
+        --canvas: #ffffff;
+        --surface: #f5f5f5;
+        --text: #111111;
+        --muted: #555555;
+        --border: #a0a0a0;
+        --link: #0000ee;
+        --visited: #551a8b;
+        --focus: #111111;
+        --selection: #cfe3ff;
+        --panel-sage: #e5f0e6;
+        --panel-blue: #e7eef8;
+        --panel-sand: #f4eddc;
+        --panel-lilac: #eee7f4;
+        --panel-peach: #f7e7de;
+        --gutter: 1rem;
+        --content-width: 70rem;
       }
 
       * {
         box-sizing: border-box;
       }
 
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        background: var(--paper);
-        color: var(--ink);
-        font-family: "IBM Plex Sans", system-ui, sans-serif;
+      html {
+        background: var(--canvas);
+        color: var(--text);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.45;
       }
 
       body {
-        line-height: 1.5;
+        margin: 0;
+        background: var(--canvas);
+        color: var(--text);
+      }
+
+      ::selection {
+        background: var(--selection);
+        color: var(--text);
       }
 
       a {
-        color: inherit;
-        text-decoration: none;
+        color: var(--link);
+        text-decoration: underline;
+        text-underline-offset: 0.12em;
+      }
+
+      a:visited {
+        color: var(--visited);
+      }
+
+      a:hover {
+        text-decoration-thickness: 2px;
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+      }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.94em;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: var(--gutter);
+        top: -4rem;
+        z-index: 10;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--border);
+        background: var(--canvas);
+      }
+
+      .skip-link:focus {
+        top: var(--gutter);
       }
 
       .page {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 56px 28px 80px;
+        width: min(100%, var(--content-width));
+        margin-inline: auto;
+        padding: var(--gutter);
       }
 
       .topbar {
         display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
         justify-content: space-between;
-        align-items: center;
-        margin-bottom: 28px;
-        color: var(--steel);
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
+        gap: 0.5rem 1rem;
+        padding: 0.5rem 0.65rem;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        font-size: 0.875rem;
+      }
+
+      .brand {
+        font-weight: 700;
       }
 
       .nav {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px 18px;
+        gap: 0.25rem 0.9rem;
       }
 
-      .nav a {
-        color: var(--steel);
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-      }
-
-      header {
+      .hero {
         display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-        gap: 32px;
-        align-items: end;
+        grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
+        gap: 1rem 2rem;
+        padding: 1.25rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .eyebrow,
+      .section-title,
+      .ledger-item h4,
+      .architecture-block h3,
+      .capability h3,
+      .benefit-tile h4,
+      .env-row strong,
+      .footer-title {
+        font-size: 0.875rem;
+        font-weight: 700;
+      }
+
+      .eyebrow {
+        margin-bottom: 0.4rem;
+        color: var(--muted);
+      }
+
+      h1 {
+        margin: 0 0 0.6rem;
+        font-size: clamp(1.75rem, 4vw, 2.25rem);
+        line-height: 1.15;
+      }
+
+      .lead {
+        max-width: 56ch;
+        margin: 0.45rem 0 0;
+        color: var(--muted);
       }
 
       .hero-right {
         display: grid;
-        gap: 18px;
+        align-content: start;
+        gap: 0.75rem;
+        border-left: 1px solid var(--border);
+        padding-left: 1rem;
       }
 
       .status-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px 16px;
+        gap: 0.35rem 1rem;
       }
-
-      .eyebrow {
-        font-size: 12px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--steel);
-        margin-bottom: 12px;
-      }
-
-      h1 {
-        font-family: "Space Grotesk", system-ui, sans-serif;
-        font-size: clamp(36px, 5vw, 56px);
-        line-height: 1.05;
-        margin: 0 0 18px;
-      }
-
-      .lead {
-        font-size: clamp(16px, 2.2vw, 20px);
-        color: var(--steel);
-        max-width: 48ch;
-      }
-
 
       .status {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        font-weight: 500;
-        color: var(--steel);
-      }
-
-      .status span {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 0 4px var(--accent-soft);
-      }
-
-      section {
-        margin-top: 72px;
-      }
-
-      .section-title {
-        font-family: "Space Grotesk", system-ui, sans-serif;
-        font-size: 20px;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        margin: 0 0 24px;
-      }
-
-      .grid {
-        display: grid;
-        gap: 24px;
-      }
-
-      .grid.two {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .grid.three {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .card {
-        background: #fff;
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 22px;
-        box-shadow: var(--shadow);
-      }
-
-      .card h3 {
-        margin: 0 0 12px;
-        font-family: "Space Grotesk", system-ui, sans-serif;
-        font-size: 18px;
-      }
-
-      .card p {
-        margin: 0;
-        color: var(--steel);
-      }
-
-      .list strong {
-        color: var(--ink);
+        gap: 0.4rem;
+        font-size: 0.875rem;
         font-weight: 600;
       }
 
+      .status span {
+        width: 0.55rem;
+        height: 0.55rem;
+        border: 1px solid #46654a;
+        background: var(--panel-sage);
+      }
+
+      section {
+        margin-top: 1.5rem;
+        border: 1px solid var(--border);
+        background: var(--canvas);
+      }
+
+      .section-title {
+        margin: 0;
+        padding: 0.35rem 0.55rem;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      section:nth-of-type(5n + 1) .section-title {
+        background: var(--panel-sage);
+      }
+
+      section:nth-of-type(5n + 2) .section-title {
+        background: var(--panel-blue);
+      }
+
+      section:nth-of-type(5n + 3) .section-title {
+        background: var(--panel-sand);
+      }
+
+      section:nth-of-type(5n + 4) .section-title {
+        background: var(--panel-lilac);
+      }
+
+      section:nth-of-type(5n) .section-title {
+        background: var(--panel-peach);
+      }
+
+      section > :not(.section-title) {
+        margin: 0.75rem;
+      }
+
+      .list {
+        display: grid;
+        gap: 0;
+      }
+
+      .list span {
+        display: block;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #d7d7d7;
+      }
+
+      .list span:last-child {
+        border-bottom: 0;
+      }
+
+      .list strong {
+        font-weight: 700;
+      }
+
+      .ledger,
+      .grid,
+      .benefits-grid,
+      .architecture-grid {
+        display: grid;
+        gap: 0.75rem;
+      }
+
       .ledger {
-        display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px;
       }
 
-      .ledger-item {
-        border: 1px dashed var(--line);
-        border-radius: 14px;
-        padding: 14px 16px;
-        min-height: 96px;
-        background: rgba(255, 255, 255, 0.5);
-      }
-
-      .ledger-item h4 {
-        margin: 0 0 6px;
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: var(--steel);
-      }
-
-      .ledger-item p {
-        margin: 0;
-        font-size: 14px;
-      }
-
-      .capability {
-        padding: 10px 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .capability h3 {
-        margin: 0 0 6px;
-        font-family: "Space Grotesk", system-ui, sans-serif;
-        font-size: 16px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-      }
-
-      .capability p {
-        margin: 0;
-        color: var(--steel);
-      }
-
+      .grid.two,
       .benefits-grid {
-        display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-      }
-
-      .benefit-tile {
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        padding: 18px 20px;
-        background: #fff;
-      }
-
-      .benefit-tile h4 {
-        margin: 0 0 8px;
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        color: var(--accent-2);
-      }
-
-      .benefit-tile p {
-        margin: 0;
-        color: var(--ink);
-        font-size: 15px;
-      }
-
-      .env-table {
-        display: grid;
-        gap: 12px;
-      }
-
-      .env-row {
-        display: grid;
-        grid-template-columns: 160px 1fr;
-        gap: 16px;
-        padding: 12px 14px;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.5);
-      }
-
-      .env-row strong {
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: var(--steel);
-      }
-
-      .env-row span {
-        color: var(--ink);
-        font-size: 14px;
       }
 
       .architecture-grid {
-        display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 24px;
+      }
+
+      .ledger-item,
+      .architecture-block,
+      .benefit-tile {
+        border: 1px solid var(--border);
+        padding: 0.6rem 0.7rem;
+        background: var(--canvas);
+      }
+
+      .ledger-item h4,
+      .architecture-block h3,
+      .capability h3,
+      .benefit-tile h4 {
+        margin: 0 0 0.35rem;
+      }
+
+      .ledger-item p,
+      .architecture-block p,
+      .capability p,
+      .benefit-tile p {
+        margin: 0;
+      }
+
+      .ledger-item p,
+      .capability p,
+      .architecture-block p {
+        color: var(--muted);
       }
 
       .architecture-block {
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        padding: 16px 18px;
-        background: #fff;
         position: relative;
       }
 
       .architecture-block:not(:last-child)::after {
         content: "→";
         position: absolute;
-        right: -22px;
         top: 50%;
-        transform: translateY(-50%);
-        color: var(--accent-2);
-        font-size: 18px;
-        font-weight: 600;
+        right: -0.72rem;
+        z-index: 1;
+        padding: 0 0.15rem;
+        background: var(--canvas);
+        transform: translate(50%, -50%);
+        font-weight: 700;
       }
 
-      .architecture-block h3 {
-        margin: 0 0 10px;
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--accent-2);
-        font-family: "Space Grotesk", system-ui, sans-serif;
+      .capability {
+        padding: 0.25rem 0 0.75rem;
+        border-bottom: 1px solid #d7d7d7;
       }
 
-      .architecture-block p {
-        margin: 0 0 6px;
-        color: var(--steel);
-        font-size: 14px;
+      .capability:nth-last-child(-n + 2) {
+        border-bottom: 0;
       }
 
-      .list {
+      .env-table {
         display: grid;
-        gap: 14px;
-        color: var(--steel);
+        gap: 0;
+        border: 1px solid var(--border);
       }
 
-      .list span {
-        display: block;
-        padding-left: 14px;
-        border-left: 3px solid var(--accent);
+      .env-row {
+        display: grid;
+        grid-template-columns: 10rem 1fr;
+        gap: 0.75rem;
+        padding: 0.5rem 0.6rem;
+        border-bottom: 1px solid var(--border);
       }
 
+      .env-row:nth-child(even) {
+        background: var(--surface);
+      }
+
+      .env-row:last-child {
+        border-bottom: 0;
+      }
 
       footer {
-        margin-top: 64px;
-        padding-top: 24px;
-        border-top: 1px solid var(--line);
         display: grid;
         grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-        gap: 24px;
-        color: var(--steel);
-        font-size: 14px;
+        gap: 1rem 2rem;
+        margin-top: 1.5rem;
+        padding: 0.75rem 0;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.875rem;
       }
 
-      .footer-meta {
+      .footer-meta,
+      .footer-group {
         display: grid;
-        gap: 6px;
+        gap: 0.25rem;
       }
 
       .footer-links {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-      }
-
-      .footer-group {
-        display: grid;
-        gap: 6px;
+        gap: 1rem;
       }
 
       .footer-title {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        color: var(--accent-2);
-      }
-
-      .footer-group a {
-        color: var(--steel);
-      }
-
-      .fade-in {
-        opacity: 0;
-        transform: translateY(12px);
-        animation: fadeUp 700ms ease forwards;
-      }
-
-      @keyframes fadeUp {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        color: var(--text);
       }
 
       @media (max-width: 900px) {
-        .topbar {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 12px;
-        }
-
-        header {
-          grid-template-columns: 1fr;
-        }
-
-        .grid.two,
-        .grid.three,
-        .ledger,
-
-        .env-row {
-          grid-template-columns: 1fr;
-        }
-
-        .benefits-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .architecture-grid {
-          grid-template-columns: 1fr;
-          gap: 32px;
-        }
-
-        .architecture-block:not(:last-child)::after {
-          content: "↓";
-          right: auto;
-          top: auto;
-          left: 50%;
-          bottom: -30px;
-          transform: translateX(-50%);
-        }
-
+        .hero,
         footer {
           grid-template-columns: 1fr;
         }
 
-        .footer-links {
-          grid-template-columns: 1fr;
+        .hero-right {
+          border-left: 0;
+          border-top: 1px solid var(--border);
+          padding: 0.75rem 0 0;
+        }
+
+        .ledger,
+        .architecture-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .architecture-block:nth-child(2)::after {
+          content: "";
+        }
+
+        .architecture-block:nth-child(1)::after,
+        .architecture-block:nth-child(3)::after {
+          content: "↓";
+          top: auto;
+          right: 50%;
+          bottom: -0.72rem;
+          transform: translate(50%, 50%);
         }
       }
 
-      @media (prefers-reduced-motion: reduce) {
-        .fade-in {
-          animation: none;
-          opacity: 1;
-          transform: none;
+      @media (max-width: 620px) {
+        .topbar {
+          display: block;
+        }
+
+        .nav {
+          margin-top: 0.5rem;
+        }
+
+        .ledger,
+        .grid.two,
+        .benefits-grid,
+        .architecture-grid,
+        .env-row,
+        .footer-links {
+          grid-template-columns: 1fr;
+        }
+
+        .capability:nth-last-child(-n + 2) {
+          border-bottom: 1px solid #d7d7d7;
+        }
+
+        .capability:last-child {
+          border-bottom: 0;
+        }
+
+        .architecture-block:not(:last-child)::after {
+          content: "↓";
+          top: auto;
+          right: 50%;
+          bottom: -0.72rem;
+          transform: translate(50%, 50%);
+        }
+
+        .env-row {
+          gap: 0.2rem;
+        }
+      }
+
+      @media (prefers-contrast: more) {
+        :root {
+          --border: #5f5f5f;
+          --muted: #333333;
+        }
+      }
+
+      @media print {
+        .skip-link,
+        .nav {
+          display: none;
+        }
+
+        .page {
+          max-width: none;
+          padding: 0;
+        }
+
+        section,
+        .ledger-item,
+        .architecture-block,
+        .benefit-tile,
+        .env-table {
+          break-inside: avoid;
         }
       }
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
     <div class="page">
-      <div class="topbar fade-in" style="animation-delay: 80ms;">
-        <div>Hyperion</div>
+      <div class="topbar">
+        <div class="brand">Hyperion</div>
         <nav class="nav" aria-label="Primary">
           <a href="#goals">Goals</a>
           <a href="#benefits">Benefits</a>
@@ -459,184 +476,187 @@
           <a href="#environments">Environments</a>
         </nav>
       </div>
-      <header class="fade-in" style="animation-delay: 120ms;">
-        <div>
-          <div class="eyebrow">Micrantha Lab</div>
-          <h1>Multi-cloud operations, governed by Git</h1>
-          <p class="lead">
-            Hyperion is a practical, production-minded platform for managing infrastructure and application
-            lifecycle through Git as the single source of truth.
-          </p>
-          <p class="lead" style="margin-top: 14px;">
-            It coordinates provisioning, configuration, and delivery as one system across local and
-            multi-cloud environments.
-          </p>
-        </div>
-        <div class="hero-right">
-          <div class="status-row">
-            <div class="status"><span></span> GitOps Core</div>
-            <div class="status"><span></span> Multi-environment</div>
-          </div>
-          <p class="lead hero-note" style="margin-top: 24px;">
-            Named after the largest tree, Hyperion focuses on reproducible environments, secure automation,
-            and consistent delivery across local and cloud targets.
-          </p>
-        </div>
-      </header>
 
-      <section class="fade-in" style="animation-delay: 220ms;" id="goals">
-        <div class="section-title">Goals</div>
-        <div class="list">
-          <span><strong>Source of truth.</strong> Model the full stack in Git, from provisioning to app delivery.</span>
-          <span><strong>Reproducible environments.</strong> Keep local, dev, staging, and production consistent.</span>
-          <span><strong>Secure automation.</strong> Encrypt secrets, validate configs, and enforce policy checks.</span>
-          <span><strong>Operational clarity.</strong> Make changes auditable, reviewable, and easy to reason about.</span>
-        </div>
-      </section>
+      <main id="main-content">
+        <header class="hero">
+          <div>
+            <div class="eyebrow">Micrantha Lab</div>
+            <h1>Multi-cloud operations, governed by Git</h1>
+            <p class="lead">
+              Hyperion is a practical, production-minded platform for managing infrastructure and application
+              lifecycle through Git as the single source of truth.
+            </p>
+            <p class="lead">
+              It coordinates provisioning, configuration, and delivery as one system across local and
+              multi-cloud environments.
+            </p>
+          </div>
+          <div class="hero-right">
+            <div class="status-row">
+              <div class="status"><span aria-hidden="true"></span> GitOps Core</div>
+              <div class="status"><span aria-hidden="true"></span> Multi-environment</div>
+            </div>
+            <p class="lead">
+              Named after the largest tree, Hyperion focuses on reproducible environments, secure automation,
+              and consistent delivery across local and cloud targets.
+            </p>
+          </div>
+        </header>
 
-      <section class="fade-in" style="animation-delay: 320ms;" id="stack">
-        <div class="section-title">Stack Ledger</div>
-        <div class="ledger">
-          <div class="ledger-item">
-            <h4>Terraform</h4>
-            <p>Infrastructure provisioning for clouds and local labs.</p>
+        <section id="goals" aria-labelledby="goals-title">
+          <h2 class="section-title" id="goals-title">Goals</h2>
+          <div class="list">
+            <span><strong>Source of truth.</strong> Model the full stack in Git, from provisioning to app delivery.</span>
+            <span><strong>Reproducible environments.</strong> Keep local, dev, staging, and production consistent.</span>
+            <span><strong>Secure automation.</strong> Encrypt secrets, validate configs, and enforce policy checks.</span>
+            <span><strong>Operational clarity.</strong> Make changes auditable, reviewable, and easy to reason about.</span>
           </div>
-          <div class="ledger-item">
-            <h4>Ansible</h4>
-            <p>Server configuration, security hardening, and platform setup.</p>
-          </div>
-          <div class="ledger-item">
-            <h4>K3s</h4>
-            <p>Lightweight Kubernetes control plane for edge and lab use.</p>
-          </div>
-          <div class="ledger-item">
-            <h4>Flux CD</h4>
-            <p>Continuous reconciliation between Git and cluster state.</p>
-          </div>
-          <div class="ledger-item">
-            <h4>Kustomize</h4>
-            <p>Environment overlays and declarative variants.</p>
-          </div>
-          <div class="ledger-item">
-            <h4>SOPS</h4>
-            <p>Encrypted secrets management in GitOps workflows.</p>
-          </div>
-          <div class="ledger-item">
-            <h4>GitHub Actions</h4>
-            <p>Automated workflows for infra and deployment cycles.</p>
-          </div>
-          <div class="ledger-item">
-            <h4>Observability</h4>
-            <p>Logging and metrics stack for cluster visibility.</p>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="fade-in" style="animation-delay: 420ms;" id="architecture">
-        <div class="section-title">Architecture Overview</div>
-        <div class="architecture-grid">
-          <div class="architecture-block">
-            <h3>Infrastructure</h3>
-            <p>Terraform</p>
-            <p>Multi-cloud + local</p>
-            <p>Remote state</p>
+        <section id="stack" aria-labelledby="stack-title">
+          <h2 class="section-title" id="stack-title">Stack Ledger</h2>
+          <div class="ledger">
+            <div class="ledger-item">
+              <h3>Terraform</h3>
+              <p>Infrastructure provisioning for clouds and local labs.</p>
+            </div>
+            <div class="ledger-item">
+              <h3>Ansible</h3>
+              <p>Server configuration, security hardening, and platform setup.</p>
+            </div>
+            <div class="ledger-item">
+              <h3>K3s</h3>
+              <p>Lightweight Kubernetes control plane for edge and lab use.</p>
+            </div>
+            <div class="ledger-item">
+              <h3>Flux CD</h3>
+              <p>Continuous reconciliation between Git and cluster state.</p>
+            </div>
+            <div class="ledger-item">
+              <h3>Kustomize</h3>
+              <p>Environment overlays and declarative variants.</p>
+            </div>
+            <div class="ledger-item">
+              <h3>SOPS</h3>
+              <p>Encrypted secrets management in GitOps workflows.</p>
+            </div>
+            <div class="ledger-item">
+              <h3>GitHub Actions</h3>
+              <p>Automated workflows for infra and deployment cycles.</p>
+            </div>
+            <div class="ledger-item">
+              <h3>Observability</h3>
+              <p>Logging and metrics stack for cluster visibility.</p>
+            </div>
           </div>
-          <div class="architecture-block">
-            <h3>Configuration</h3>
-            <p>Cloud-init</p>
-            <p>Ansible roles</p>
-            <p>Security baseline</p>
-          </div>
-          <div class="architecture-block">
-            <h3>Platform</h3>
-            <p>K3s cluster</p>
-            <p>Flux GitOps</p>
-            <p>Observability</p>
-          </div>
-          <div class="architecture-block">
-            <h3>Applications</h3>
-            <p>Kustomize overlays</p>
-            <p>Ingress + services</p>
-            <p>Backup workflows</p>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="fade-in" style="animation-delay: 520ms;" id="capabilities">
-        <div class="section-title">Key Capabilities</div>
-        <div class="grid two">
-          <div class="capability">
-            <h3>Environment overlays</h3>
-            <p>Base manifests with environment-specific overlays for predictable changes.</p>
+        <section id="architecture" aria-labelledby="architecture-title">
+          <h2 class="section-title" id="architecture-title">Architecture Overview</h2>
+          <div class="architecture-grid">
+            <div class="architecture-block">
+              <h3>Infrastructure</h3>
+              <p>Terraform</p>
+              <p>Multi-cloud + local</p>
+              <p>Remote state</p>
+            </div>
+            <div class="architecture-block">
+              <h3>Configuration</h3>
+              <p>Cloud-init</p>
+              <p>Ansible roles</p>
+              <p>Security baseline</p>
+            </div>
+            <div class="architecture-block">
+              <h3>Platform</h3>
+              <p>K3s cluster</p>
+              <p>Flux GitOps</p>
+              <p>Observability</p>
+            </div>
+            <div class="architecture-block">
+              <h3>Applications</h3>
+              <p>Kustomize overlays</p>
+              <p>Ingress + services</p>
+              <p>Backup workflows</p>
+            </div>
           </div>
-          <div class="capability">
-            <h3>Policy & validation</h3>
-            <p>Preflight checks for IaC, manifests, and security posture.</p>
-          </div>
-          <div class="capability">
-            <h3>Secret hygiene</h3>
-            <p>SOPS-encrypted secrets integrated into GitOps flow.</p>
-          </div>
-          <div class="capability">
-            <h3>Automated delivery</h3>
-            <p>CI workflows to provision, configure, and reconcile changes.</p>
-          </div>
-          <div class="capability">
-            <h3>Observability</h3>
-            <p>Logging and metrics pipeline for cluster-level visibility.</p>
-          </div>
-          <div class="capability">
-            <h3>Operational runbooks</h3>
-            <p>Backup and restore workflows to keep data resilient.</p>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="fade-in" style="animation-delay: 620ms;" id="benefits">
-        <div class="section-title">Benefits</div>
-        <div class="benefits-grid">
-          <div class="benefit-tile">
-            <h4>Consistency</h4>
-            <p>Predictable rollouts across local and cloud environments.</p>
+        <section id="capabilities" aria-labelledby="capabilities-title">
+          <h2 class="section-title" id="capabilities-title">Key Capabilities</h2>
+          <div class="grid two">
+            <div class="capability">
+              <h3>Environment overlays</h3>
+              <p>Base manifests with environment-specific overlays for predictable changes.</p>
+            </div>
+            <div class="capability">
+              <h3>Policy &amp; validation</h3>
+              <p>Preflight checks for IaC, manifests, and security posture.</p>
+            </div>
+            <div class="capability">
+              <h3>Secret hygiene</h3>
+              <p>SOPS-encrypted secrets integrated into GitOps flow.</p>
+            </div>
+            <div class="capability">
+              <h3>Automated delivery</h3>
+              <p>CI workflows to provision, configure, and reconcile changes.</p>
+            </div>
+            <div class="capability">
+              <h3>Observability</h3>
+              <p>Logging and metrics pipeline for cluster-level visibility.</p>
+            </div>
+            <div class="capability">
+              <h3>Operational runbooks</h3>
+              <p>Backup and restore workflows to keep data resilient.</p>
+            </div>
           </div>
-          <div class="benefit-tile">
-            <h4>Auditability</h4>
-            <p>Infrastructure changes remain reviewable and traceable.</p>
-          </div>
-          <div class="benefit-tile">
-            <h4>Resilience</h4>
-            <p>Standardized backups and recovery reduce downtime risk.</p>
-          </div>
-          <div class="benefit-tile">
-            <h4>Risk Control</h4>
-            <p>Policy checks and automated verification lower operational risk.</p>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="fade-in" style="animation-delay: 700ms;" id="environments">
-        <div class="section-title">Environments & Domains</div>
-        <div class="env-table">
-          <div class="env-row">
-            <strong>Local</strong>
-            <span><code>*.micrantha.local</code> · <code>*.micrantha.test</code></span>
+        <section id="benefits" aria-labelledby="benefits-title">
+          <h2 class="section-title" id="benefits-title">Benefits</h2>
+          <div class="benefits-grid">
+            <div class="benefit-tile">
+              <h3>Consistency</h3>
+              <p>Predictable rollouts across local and cloud environments.</p>
+            </div>
+            <div class="benefit-tile">
+              <h3>Auditability</h3>
+              <p>Infrastructure changes remain reviewable and traceable.</p>
+            </div>
+            <div class="benefit-tile">
+              <h3>Resilience</h3>
+              <p>Standardized backups and recovery reduce downtime risk.</p>
+            </div>
+            <div class="benefit-tile">
+              <h3>Risk Control</h3>
+              <p>Policy checks and automated verification lower operational risk.</p>
+            </div>
           </div>
-          <div class="env-row">
-            <strong>Development</strong>
-            <span><code>*.micrantha.dev</code> · <code>*.vpn.micrantha.dev</code> (VPN)</span>
-          </div>
-          <div class="env-row">
-            <strong>Staging</strong>
-            <span><code>*.staging.micrantha.dev</code> · <code>*.staging.micrantha.com</code></span>
-          </div>
-          <div class="env-row">
-            <strong>Production</strong>
-            <span><code>*.micrantha.com</code> · <code>*.micrantha.net</code> · <code>*.micrantha.org</code></span>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <footer class="fade-in" style="animation-delay: 820ms;">
+        <section id="environments" aria-labelledby="environments-title">
+          <h2 class="section-title" id="environments-title">Environments &amp; Domains</h2>
+          <div class="env-table">
+            <div class="env-row">
+              <strong>Local</strong>
+              <span><code>*.micrantha.local</code> · <code>*.micrantha.test</code></span>
+            </div>
+            <div class="env-row">
+              <strong>Development</strong>
+              <span><code>*.micrantha.dev</code> · <code>*.vpn.micrantha.dev</code> (VPN)</span>
+            </div>
+            <div class="env-row">
+              <strong>Staging</strong>
+              <span><code>*.staging.micrantha.dev</code> · <code>*.staging.micrantha.com</code></span>
+            </div>
+            <div class="env-row">
+              <strong>Production</strong>
+              <span><code>*.micrantha.com</code> · <code>*.micrantha.net</code> · <code>*.micrantha.org</code></span>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
         <div class="footer-meta">
           <div>All rights reserved © Micrantha.com</div>
           <div>GitHub: github.com/hackelia-micrantha/laboratory</div>
