@@ -1,167 +1,108 @@
-# 🌲 Hyperion
+# Hyperion Community
 
-Hyperion (named after the world’s tallest tree) is an infrastructure-as-code project for creating environments and deploying services with minimal resources. It provides reusable automation and patterns for **local prototyping**, **staging validation**, and **production-ready deployments** on a VPS or cloud provider.  
+Hyperion Community contains the reusable, deployment-neutral components of a privately operated infrastructure platform. Environment configuration, credentials, live cluster state, and deployment-specific composition remain private.
 
----
+This is an inspectable public reference implementation, not a dump or mirror of the private operational source.
 
-## ❓ Why this project exists?
+## What is implemented
 
-Hyperion exists to make modern platform operations reproducible without enterprise-scale overhead.
+- **OpenTofu/Terraform** — a provider-free synthetic reference-environment module.
+- **Ansible/K3s** — a non-mutating-by-default K3s bootstrap role with checksum-verified opt-in binary installation.
+- **Kubernetes/Kustomize** — a synthetic hardened workload, ServiceAccount, Service, NetworkPolicies, restricted Pod Security namespace, and local overlay.
+- **Flux/GitOps** — a pinned Flux CLI and documented immutable-source consumption pattern.
+- **CI/CD** — GitHub-hosted, least-privilege CI using the same mise contract as local verification.
+- **Security/validation** — publication leakage tests, Terraform lint/validation, Ansible lint/check mode, Kubernetes schema validation, Trivy, and Checkov.
+- **Architecture/governance** — public/private boundary, ownership model, provenance review, and threat model.
 
-- Reproducible infrastructure and cluster setup from code.
-- Consistent local-to-production workflows.
-- Safe deployment patterns through GitOps reconciliation.
-- Clear operational boundaries per environment.
+## Fresh-clone verification
 
----
-
-## 🚀 Goals
-
-1. **Minimal Operational Footprint** — Lightweight stack based on K3s, Terraform/OpenTofu, and Ansible.
-2. **Safe Delivery Workflows** — GitOps reconciliation with environment-aware overlays.
-3. **Developer Velocity** — Fast local bootstrap and validation loops.
-4. **Multi-Environment Consistency** — Standardized structure for `local`, `dev`, `test`, `staging`, and `prod`.
-
----
-
-## ⚡ Quick Start
-
-Prerequisites:
-- `tofu` or `terraform`
-- `ansible`
-- `kubectl`
-- `flux`
-- `jq`
-
-Local bootstrap:
+Install [mise](https://mise.jdx.dev/), then run:
 
 ```bash
-make deploy ENV=local
-make local-kubeconfig ENV=local
-make validate ENV=local
+mise install
+mise run doctor
+mise run lint
+mise run ci
 ```
 
-Optional for Terraform/Ansible password hashing flow:
+The basic path requires no private repository, private cluster, cloud credential, or deployment secret.
 
-```bash
-export MICRANTHA_SUDO_PASS='your-password'
+CI initializes only the provider-free synthetic Terraform example, executes the Ansible example in check mode, renders synthetic Kubernetes manifests, and runs static/publication security checks. It does not deploy infrastructure. The merge gate is evaluated against the exact candidate revision.
+
+## Repository layout
+
+```text
+terraform/
+  modules/reference_environment/  provider-free reusable Terraform contract
+examples/local/                   synthetic Terraform consumer
+ansible/
+  roles/k3s/                      checksum-verified K3s bootstrap primitive
+  playbooks/reference.yml         non-mutating public validation path
+k8s/
+  base/                           synthetic hardened runtime fixture
+  examples/local/                 Kustomize example
+  flux/                           immutable-source GitOps guidance
+scripts/
+  publication_audit.py            deterministic publication-boundary audit
+tests/
+  test_publication_audit.py       regression tests for the audit
+docs/
+  architecture/                   boundary, ownership, provenance
+  security/                       threat model and publication review
+.github/workflows/ci.yml           hosted read-only CI
+mise.toml                          reproducible task/tool interface
 ```
 
----
-## 📂 Repository Layout
+## Architecture
 
-### Public Repository
-- 📖 **Documentation** — How to use and extend Hyperion.  
-- 🔧 **Reusable Ansible Roles** — Common building blocks for provisioning.  
-- ☸️ **Kubernetes Configurations** — Base manifests, kustomizations, and Helm charts.  
-- 🔑 **CI/CD Pipelines** — GitHub Actions workflows, with secrets management.  
+OpenTofu/Terraform owns infrastructure contracts. Ansible owns host/bootstrap automation. Kubernetes owns runtime resources. Flux is the intended GitOps reconciliation boundary for consumers of reviewed public revisions.
 
-### Private Repository
-- ⚙️ **Cluster Configurations** — Infrastructure definitions for full stacks.  
-- 🐧 **K3s Deployment** — Automated with Ansible, provisioned with Terraform.  
-- 🏗 **Services** grouped by scope:
-  - `org/` → Organization services (`micrantha`)  
-  - `user/` → Personal projects (`ryjen`)  
-  - `vendor/` → Third-party / vendor-managed services  
-- 🌍 **Environments** — Configurations per environment:  
-  - `production/`  
-  - `staging/`  
-  - `development/`  
-  - `testing/` (via Vagrant + VirtualBox)  
+The public and private trust domains are deliberately separate. Public CI cannot read or deploy private state.
 
----
+See:
 
-## 🔄 Environments & Deployment
+- [architecture overview](docs/architecture/README.md)
+- [publication boundary](docs/architecture/public-private-boundary.md)
+- [ownership model](docs/architecture/ownership.md)
+- [provenance/licensing review](docs/architecture/provenance.md)
+- [threat model](docs/security/threat-model.md)
 
-| Environment  | Purpose                                  | Deployment Target          |
-|--------------|------------------------------------------|----------------------------|
-| Development  | Fast local prototyping                   | Local K3s / Minikube       |
-| Testing      | Integration testing w/ libvirt           | Ephemeral VMs              |
-| Staging      | Pre-production validation                | VPS / Cloud provider       |
-| Production   | Blue/green & canary deployments          | VPS / Cloud provider       |
+## Security properties in the reference slice
 
----
+- synthetic/documentation-only identities and networks;
+- no live SOPS/Vault ciphertext or age recipients;
+- no private environment inventories or cluster overlays;
+- fail-safe K3s role default;
+- exact K3s release pin and upstream SHA-256 verification before binary installation;
+- digest-pinned example container;
+- restricted Pod Security namespace labels;
+- non-root/read-only container with dropped capabilities and RuntimeDefault seccomp;
+- disabled ServiceAccount token automount;
+- ingress/egress default-deny NetworkPolicy with bounded namespace-local ingress;
+- read-only public CI permissions and commit-pinned third-party Actions;
+- no Terraform plan/state artifacts uploaded.
 
-## 🛠 Toolchain
+See [SECURITY.md](SECURITY.md) and [publication review](docs/security/publication-review.md).
 
-- **Terraform** → Provision cloud infrastructure (VPS, storage, networking).  
-- **Ansible** → Automate K3s cluster setup and service deployment.  
-- **Kubernetes (K3s)** → Lightweight cluster orchestration.  
-- **FluxCD / GitOps** → Continuous deployment to clusters.  
-- **Vagrant** → Local testing environment.  
-- **GitHub Actions** → CI/CD pipelines with secrets.  
+## Maturity and limitations
 
----
+The source-level and synthetic validation path is real. This initial slice does **not** claim:
 
-## 🛠 Common Commands
+- end-to-end K3s cluster creation or upgrade lifecycle;
+- production-ready cloud provisioning;
+- parity with any private environment;
+- production Flux bootstrap;
+- backup/restore or observability deployment;
+- production portability of private composition.
 
-| Task | Command |
-|------|---------|
-| Deploy environment | `make deploy ENV=<env>` |
-| Destroy environment | `make destroy ENV=<env>` |
-| Validate environment | `make validate ENV=<env>` |
-| Initialize Terraform/OpenTofu | `make terraform-init ENV=<env>` |
-| Apply Terraform/OpenTofu | `make terraform-apply ENV=<env>` |
-| Run Ansible site playbook | `make ansible-run ENV=<env>` |
-| Reconcile Flux | `make flux-sync ENV=<env>` |
-| Fetch local kubeconfig | `make local-kubeconfig ENV=local` |
-| Run role tests | `make test-roles` |
+Those capabilities require separate runtime evidence before they can be represented as supported.
 
+## Contributing
 
----
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## 🧱 Architecture
+## License
 
-Hyperion uses a layered workflow:
+Apache License 2.0. See [LICENSE](LICENSE).
 
-1. Terraform/OpenTofu provisions infrastructure.
-2. Ansible configures hosts and cluster prerequisites.
-3. K3s runs workloads.
-4. Flux continuously reconciles Kubernetes manifests from Git.
-
-This keeps infrastructure, configuration, and workload state declarative and auditable.
-
-```mermaid
-flowchart TB
-  classDef actor fill:#f3f6f8,stroke:#51606d,color:#182026,stroke-width:1px;
-  classDef control fill:#e8f4f3,stroke:#1f7a6f,color:#0f302c,stroke-width:1.2px;
-  classDef infra fill:#f9f2e8,stroke:#b86a25,color:#3e2a14,stroke-width:1.2px;
-  classDef runtime fill:#eceffe,stroke:#4a62d8,color:#1a2457,stroke-width:1.2px;
-  classDef source fill:#f2ecfb,stroke:#7040b0,color:#2d174b,stroke-width:1.2px;
-
-  Dev[Operator / CI]:::actor --> Make[Make targets]:::control
-  Make --> Provision[Terraform + Ansible provisioning]:::infra
-  Provision --> K3s[K3s cluster nodes]:::runtime
-
-  Repo[Git source of truth<br/>k8s-gitops/base + overlays/&lt;env&gt;]:::source --> Flux[Flux controllers<br/>GitRepository + Kustomization]:::runtime
-  Flux --> K3s
-  K3s --> Workloads[Namespaces, platform services, app deployments, ingress]:::runtime
-```
-
-
----
-
-## 🔐 Security
-
-- Keep secrets encrypted (`*.enc.yaml`, `vault.yml`, SOPS-managed files).
-- Never commit plaintext credentials.
-- Use least-privilege cloud and cluster credentials.
-- Prefer remote Terraform state for shared environments.
-
-
----
-
-## 🤝 Contributing
-
-1. Create a branch.
-2. Make focused changes.
-3. Run validation (`make validate ENV=<env>` and relevant tests).
-4. Open a PR with environment impact and command output.
-
-Commit style follows Conventional Commits (for example: `feat:`, `fix:`, `chore(ansible):`).
-
----
-
-## 📄 License
-
-This project is proprietary and closed-source. (c) All rights reserved.
+This license applies to Hyperion Community only; it does not change the licensing or visibility of privately operated source.
