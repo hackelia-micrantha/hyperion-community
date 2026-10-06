@@ -42,6 +42,7 @@ k8s/
   base/                           synthetic hardened runtime fixture
   examples/local/                 Kustomize example
   flux/                           immutable-source GitOps guidance
+web/                              static provider-neutral project site
 scripts/
   publication_audit.py            deterministic publication-boundary audit
 tests/
@@ -52,6 +53,18 @@ docs/
 .github/workflows/ci.yml           hosted read-only CI
 mise.toml                          reproducible task/tool interface
 ```
+
+## Website publication
+
+The public landing page is the static artifact under [`web/`](web/README.md).
+It does not require a Cloudflare Workers runtime, Node compatibility flags,
+provider observability, or deployment credentials.
+
+Repository CI validates the site source as part of the normal test suite but
+does not deploy it. External preview/hosting availability is intentionally
+non-authoritative: a preview-provider failure must not make source CI red or
+justify adding runtime compatibility, telemetry, or credentials that the
+static site does not otherwise need.
 
 ## Architecture
 
