@@ -4,7 +4,8 @@ The Hyperion Community landing page is the static content under this directory.
 
 ## Supported source contract
 
-- `web/index.html` is the canonical public landing-page artifact.
+- `web/index.html` is the canonical public landing-page artifact and remains the baseline (A) presentation.
+- `web/phyllotaxis/index.html` is the Phyllotaxis (B) presentation used for visual comparison. It must preserve the same public trust-boundary claims and static-site constraints as the baseline.
 - The repository does not require a server-side runtime, Cloudflare Workers,
   Node compatibility, or provider-specific observability to render the site.
 - The page is intentionally usable as plain static HTML/CSS.
@@ -34,6 +35,8 @@ A local preview needs only a static HTTP server, for example:
 ```bash
 python -m http.server 8000 -d web
 ```
+
+The baseline is served at `/`; the Phyllotaxis comparison is served at `/phyllotaxis/`. The A/B split is presentation-only: it must not become a way to publish different capability, maturity, privacy, or deployment claims.
 
 The repository's authoritative verification remains:
 
