@@ -29,7 +29,7 @@
       background-size:32px 32px,32px 32px,auto,auto,auto;
     }
     body::after{
-      inset:-18vmax;
+      inset:0;
       z-index:-1;
       opacity:.42;
       background:
@@ -45,25 +45,25 @@
     .topbar{
       display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
       border:1px solid var(--border);background:var(--surface-soft);padding:.62rem .78rem;
-      box-shadow:0 3px 0 rgba(17,17,17,.08);backdrop-filter:blur(12px);
+      box-shadow:0 3px 0 rgba(17,17,17,.08);backdrop-filter:blur(6px);
       position:sticky;top:.75rem;z-index:5;
     }
     .brand{font-weight:800;letter-spacing:.015em}.nav{display:flex;gap:1rem;flex-wrap:wrap}
     .hero{padding:clamp(2.75rem,8vw,6rem) 0 clamp(2rem,5vw,3.5rem);border-bottom:1px solid var(--border);position:relative}
     .hero::before{
-      content:"";position:absolute;width:9rem;height:9rem;right:4%;top:16%;
+      content:"";position:absolute;width:9rem;height:9rem;right:0;top:10%;
       border:1px solid var(--border);border-radius:50%;
       background:repeating-radial-gradient(circle,transparent 0 9px,rgba(17,17,17,.08) 10px 11px);
-      opacity:.45;animation:orbit-pulse 12s ease-in-out infinite;
+      opacity:.25;animation:orbit-pulse 12s ease-in-out infinite;
     }
     h1{font-size:clamp(2.2rem,6vw,4.7rem);line-height:.98;letter-spacing:-.045em;max-width:14ch;margin:0 0 1rem}
     .lead{max-width:68ch;color:var(--muted);font-size:clamp(1rem,2vw,1.15rem)}
     section{
       border:1px solid var(--border);margin-top:1.25rem;background:var(--surface-soft);
-      box-shadow:var(--shadow);backdrop-filter:blur(8px);
+      box-shadow:var(--shadow);
       animation:surface-enter .6s both;
     }
-    section:nth-of-type(2){animation-delay:.05s}section:nth-of-type(3){animation-delay:.1s}section:nth-of-type(4){animation-delay:.15s}
+    
     .section-title{font-size:.78rem;letter-spacing:.075em;text-transform:uppercase;margin:0;padding:.48rem .68rem;border-bottom:1px solid var(--border)}
     section:nth-of-type(5n+1) .section-title{background:var(--sage)}
     section:nth-of-type(5n+2) .section-title{background:var(--blue)}
@@ -81,11 +81,12 @@
     footer{border-top:1px solid var(--border);margin-top:1.5rem;padding:.9rem 0;color:var(--muted);font-size:.875rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     @keyframes field-drift{from{transform:translate3d(-1.5%,0,0) rotate(-.4deg)}to{transform:translate3d(1.5%,-1%,0) rotate(.4deg)}}
     @keyframes orbit-pulse{0%,100%{transform:scale(.96) rotate(0);opacity:.32}50%{transform:scale(1.04) rotate(8deg);opacity:.52}}
-    @keyframes surface-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    @keyframes surface-enter{from{transform:translateY(6px)}to{transform:none}}
     @media(max-width:650px){
-      .page{padding:.75rem}.grid{grid-template-columns:1fr}.topbar{top:.4rem}.hero::before{width:6rem;height:6rem;right:-1rem;opacity:.3}
-      h1{max-width:12ch}
+      .page{padding:.75rem}.grid{grid-template-columns:1fr}.topbar{top:.4rem}.hero::before{width:6rem;height:6rem;right:0;opacity:.15}
+      h1{max-width:12ch}.hero::before{display:none}
     }
+    @media(hover:none){.card:hover{transform:none;box-shadow:none}}
     @media(prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
       *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
