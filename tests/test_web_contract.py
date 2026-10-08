@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
 INDEX = WEB / "index.html"
+PHYLLOTAXIS = WEB / "phyllotaxis" / "index.html"
 
 
 class SiteParser(HTMLParser):
@@ -50,13 +51,14 @@ class SiteParser(HTMLParser):
 
 
 class StaticSiteContractTests(unittest.TestCase):
-    def parser(self) -> SiteParser:
+    def parser(self, path: Path = INDEX) -> SiteParser:
         parser = SiteParser()
-        parser.feed(INDEX.read_text(encoding="utf-8"))
+        parser.feed(path.read_text(encoding="utf-8"))
         return parser
 
     def test_site_is_static_and_workers_runtime_is_not_required(self):
         self.assertTrue(INDEX.is_file())
+        self.assertTrue(PHYLLOTAXIS.is_file())
         for relative in (
             "wrangler.toml",
             "wrangler.jsonc",
@@ -68,22 +70,40 @@ class StaticSiteContractTests(unittest.TestCase):
                 f"{relative} introduces a Workers runtime into the static-site contract",
             )
 
-        parser = self.parser()
-        self.assertEqual(
-            parser.script_count,
-            0,
-            "the current landing-page contract is static HTML/CSS with no JS runtime",
-        )
+        for path in (INDEX, PHYLLOTAXIS):
+            parser = self.parser(path)
+            self.assertEqual(
+                parser.script_count,
+                0,
+                f"{path.relative_to(ROOT)} must remain static HTML/CSS with no JS runtime",
+            )
 
     def test_page_has_basic_metadata(self):
-        parser = self.parser()
-        self.assertTrue("".join(parser.title_parts).strip())
-        self.assertTrue(parser.description)
+        for path in (INDEX, PHYLLOTAXIS):
+            parser = self.parser(path)
+            self.assertTrue("".join(parser.title_parts).strip())
+            self.assertTrue(parser.description)
 
     def test_fragment_navigation_targets_exist(self):
-        parser = self.parser()
-        missing = sorted(set(parser.fragment_links) - parser.ids)
-        self.assertEqual(missing, [], f"missing fragment targets: {missing}")
+        for path in (INDEX, PHYLLOTAXIS):
+            parser = self.parser(path)
+            missing = sorted(set(parser.fragment_links) - parser.ids)
+            self.assertEqual(
+                missing,
+                [],
+                f"{path.relative_to(ROOT)} has missing fragment targets: {missing}",
+            )
+
+    def test_ab_variants_share_public_claims(self):
+        baseline = INDEX.read_text(encoding="utf-8")
+        phyllotaxis = PHYLLOTAXIS.read_text(encoding="utf-8")
+        for claim in (
+            "Reusable platform engineering for reproducible infrastructure",
+            "Public/private trust boundary",
+            "Apache-2.0 license applies to Hyperion Community only",
+        ):
+            self.assertIn(claim, baseline)
+            self.assertIn(claim, phyllotaxis)
 
 
 if __name__ == "__main__":
