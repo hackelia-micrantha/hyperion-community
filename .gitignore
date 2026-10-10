@@ -1,5 +1,7 @@
 .terraform/
 .terraform.lock.hcl
+# Only the reviewed public provider-backed fixture is lockfile-authoritative.
+!examples/incus-instance/.terraform.lock.hcl
 .venv/
 .mise/
 __pycache__/
