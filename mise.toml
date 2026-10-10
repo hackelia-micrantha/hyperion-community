@@ -49,16 +49,22 @@ description = "Check OpenTofu/Terraform formatting"
 run = "tofu fmt -check -recursive terraform examples"
 
 [tasks.terraform-validate]
-description = "Validate the provider-free public Terraform example"
+description = "Validate both the provider-free and provider-backed public Terraform examples"
 run = '''
 set -eu
 tofu -chdir=examples/local init -backend=false -input=false
 tofu -chdir=examples/local validate
+# Provider schema validation only: do not plan, apply, or contact an Incus daemon.
+tofu -chdir=examples/incus-instance init -backend=false -input=false
+tofu -chdir=examples/incus-instance validate
 '''
 
 [tasks.tflint]
-description = "Lint the public Terraform example"
-run = "tflint --chdir examples/local"
+description = "Lint the public Terraform examples"
+run = [
+  "tflint --chdir examples/local",
+  "tflint --chdir examples/incus-instance",
+]
 
 [tasks.ansible]
 description = "Syntax-check, check-mode execute, and lint the public Ansible slice"
