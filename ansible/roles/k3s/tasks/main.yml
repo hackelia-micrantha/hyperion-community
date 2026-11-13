@@ -7,20 +7,30 @@
 
 - name: Resolve K3s release architecture
   ansible.builtin.set_fact:
-    k3s_release_arch: "{{ k3s_arch_map.get(ansible_architecture, '') }}"
+    k3s_release_arch: "{{ k3s_arch_map.get(ansible_architecture, {}).get('checksum_arch', '') }}"
+    k3s_binary_asset: "{{ k3s_arch_map.get(ansible_architecture, {}).get('asset', '') }}"
     k3s_release_tag_url: "{{ k3s_version | urlencode }}"
   vars:
     k3s_arch_map:
-      x86_64: amd64
-      aarch64: arm64
-      armv7l: armhf
-      armv6l: armhf
+      x86_64:
+        checksum_arch: amd64
+        asset: k3s
+      aarch64:
+        checksum_arch: arm64
+        asset: k3s-arm64
+      armv7l:
+        checksum_arch: arm
+        asset: k3s-armhf
+      armv6l:
+        checksum_arch: arm
+        asset: k3s-armhf
   when: k3s_install_binary
 
 - name: Require a supported K3s architecture
   ansible.builtin.assert:
     that:
       - k3s_release_arch | length > 0
+      - k3s_binary_asset | length > 0
     fail_msg: "Unsupported architecture for the public K3s bootstrap role."
   when: k3s_install_binary
 
@@ -33,13 +43,14 @@
 
 - name: Select checksum line for the K3s binary
   ansible.builtin.set_fact:
-    k3s_checksum_matches: "{{ k3s_checksum_list.content.splitlines() | select('search', ' k3s$') | list }}"
+    k3s_checksum_matches: "{{ k3s_checksum_list.content.splitlines() | select('search', ' ' ~ k3s_binary_asset ~ '$') | list }}"
   when: k3s_install_binary
 
 - name: Require exactly one K3s binary checksum
   ansible.builtin.assert:
     that:
       - k3s_checksum_matches | length == 1
+      - k3s_checksum_matches[0].split()[0] is match('^[0-9a-fA-F]{64}$')
     fail_msg: "Could not resolve exactly one upstream checksum for the K3s binary."
   when: k3s_install_binary
 
@@ -50,7 +61,7 @@
 
 - name: Download checksum-verified K3s binary
   ansible.builtin.get_url:
-    url: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_release_tag_url }}/k3s"
+    url: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_release_tag_url }}/{{ k3s_binary_asset }}"
     dest: "{{ k3s_binary_path }}"
     mode: "0755"
     checksum: "{{ k3s_binary_checksum }}"
