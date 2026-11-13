@@ -6,7 +6,7 @@ This is an inspectable public reference implementation, not a dump or mirror of 
 
 ## What is implemented
 
-- **OpenTofu/Terraform** — a provider-free synthetic reference-environment module.
+- **OpenTofu/Terraform** — a provider-free synthetic reference-environment module and a deployment-neutral Incus instance module with a credential-free provider-schema validation example.
 - **Ansible/K3s** — a non-mutating-by-default K3s bootstrap role with checksum-verified opt-in binary installation.
 - **Kubernetes/Kustomize** — a synthetic hardened workload, ServiceAccount, Service, NetworkPolicies, restricted Pod Security namespace, and local overlay.
 - **Flux/GitOps** — a pinned Flux CLI and documented immutable-source consumption pattern.
@@ -27,14 +27,16 @@ mise run ci
 
 The basic path requires no private repository, private cluster, cloud credential, or deployment secret.
 
-CI initializes only the provider-free synthetic Terraform example, executes the Ansible example in check mode, renders synthetic Kubernetes manifests, and runs static/publication security checks. It does not deploy infrastructure.
+CI validates the provider-free Terraform example and initializes the Incus example only to check provider/schema compatibility (no plan, apply, backend state, or Incus API connection). It also executes the Ansible example in check mode, renders synthetic Kubernetes manifests, and runs static/publication security checks. It does not deploy infrastructure.
 
 ## Repository layout
 
 ```text
 terraform/
   modules/reference_environment/  provider-free reusable Terraform contract
+  modules/incus_instance/         provider-backed Incus instance abstraction
 examples/local/                   synthetic Terraform consumer
+examples/incus-instance/          credential-free Incus schema-validation consumer
 ansible/
   roles/k3s/                      checksum-verified K3s bootstrap primitive
   playbooks/reference.yml         non-mutating public validation path
