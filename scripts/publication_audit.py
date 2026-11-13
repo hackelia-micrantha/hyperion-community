@@ -14,11 +14,13 @@ SKIP_FILES = {
 }
 TEXT_SUFFIXES = {
     ".cfg",
+    ".hcl",
     ".html",
     ".json",
     ".md",
     ".py",
     ".tf",
+    ".tfvars",
     ".toml",
     ".txt",
     ".yaml",
