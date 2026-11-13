@@ -69,6 +69,28 @@ class PublicationAuditTests(unittest.TestCase):
                 any("operational Tailscale reference" in item for item in audit(root))
             )
 
+    def test_rejects_private_details_in_hcl_and_tfvars(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / ".terraform.lock.hcl").write_text(
+                "source=hackelia-micrantha/hyperion\n",
+                encoding="utf-8",
+            )
+            (root / "example.tfvars").write_text(
+                "node=192.168.50.12\n",
+                encoding="utf-8",
+            )
+            findings = audit(root)
+            self.assertTrue(
+                any(
+                    ".terraform.lock.hcl: private repository reference" in item
+                    for item in findings
+                )
+            )
+            self.assertTrue(
+                any("example.tfvars: RFC1918 IPv4 address" in item for item in findings)
+            )
+
     def test_rejects_non_example_email(self):
         with TemporaryDirectory() as tmp:
             root = Path(tmp)
