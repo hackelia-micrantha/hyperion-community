@@ -21,4 +21,21 @@ module "reference_instance" {
     "limits.cpu"    = "1"
     "limits.memory" = "1GiB"
   }
+
+  # Synthetic device names are map keys, not fields inside the objects.
+  devices = {
+    root = {
+      type = "disk"
+      properties = {
+        path = "/"
+        pool = "example-pool"
+      }
+    }
+    eth0 = {
+      type = "nic"
+      properties = {
+        network = "example-network"
+      }
+    }
+  }
 }

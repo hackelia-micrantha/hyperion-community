@@ -10,7 +10,7 @@ resource "incus_instance" "this" {
   dynamic "device" {
     for_each = var.devices
     content {
-      name       = device.value.name
+      name       = device.key
       type       = device.value.type
       properties = device.value.properties
     }
