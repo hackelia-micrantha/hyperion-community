@@ -1,70 +1,119 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-phyllotaxis-profile="utility" data-phyllotaxis-scheme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Inspect Hyperion Community, a platform engineering portfolio reference for OpenTofu, Incus, Ansible, K3s, Kubernetes, Flux GitOps, CI/CD and infrastructure security.">
   <title>Hyperion Community | Secure Platform Engineering</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root{
-      color-scheme:light;
-      --paper:#f6f4ef;--ink:#121417;--steel:#5b6570;--accent:#1c7d7a;--accent-2:#c86a3a;
-      --accent-soft:rgba(28,125,122,.12);--line:rgba(18,20,23,.12);--shadow:0 12px 40px rgba(18,20,23,.08)
+    :root {
+      color-scheme: light;
+      --phyllotaxis-space-xs: .25rem;
+      --phyllotaxis-space-sm: .5rem;
+      --phyllotaxis-space-md: 1rem;
+      --phyllotaxis-space-lg: 1.5rem;
+      --phyllotaxis-gutter-page: clamp(.75rem, 2.5vw, 1.5rem);
+      --phyllotaxis-content-width-narrow: 42rem;
+      --phyllotaxis-content-width-wide: 82rem;
+      --phyllotaxis-font-body: Arial, Helvetica, sans-serif;
+      --phyllotaxis-font-mono: "Courier New", Courier, monospace;
+      --phyllotaxis-color-canvas: #fff;
+      --phyllotaxis-color-surface: #f4f4f4;
+      --phyllotaxis-color-text: #111;
+      --phyllotaxis-color-text-muted: #555;
+      --phyllotaxis-color-border: #b8b8b8;
+      --phyllotaxis-color-link: #0000ee;
+      --phyllotaxis-color-link-visited: #551a8b;
+      --phyllotaxis-color-focus: #c45500;
+      --phyllotaxis-color-selection: #ffef9c;
+      --surface-a: #e9f0e7;
+      --surface-b: #e8eef3;
+      --surface-c: #f1eadc;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif}
-    body{line-height:1.5}
-    a{color:inherit;text-decoration:none}
-    a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.94em}
-    .page{max-width:1100px;margin:0 auto;padding:56px 28px 80px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px 18px;flex-wrap:wrap;margin-bottom:28px;color:var(--steel);font-size:12px;text-transform:uppercase;letter-spacing:.16em}
-    .brand{font-weight:600;color:var(--ink)}
-    .nav{display:flex;flex-wrap:wrap;gap:12px 18px}
-    .nav a{color:var(--steel);font-size:12px;text-transform:uppercase;letter-spacing:.12em}
-    .nav a:hover{text-decoration:underline;text-underline-offset:.2em}
-    .hero{padding:12px 0 8px}
-    h1{font-family:"Space Grotesk",system-ui,sans-serif;font-size:clamp(36px,5vw,56px);line-height:1.05;margin:0 0 18px;max-width:18ch}
-    .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--accent);font-weight:600;margin:0 0 12px}
-    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
-    .action{display:inline-block;padding:10px 16px;border:1px solid var(--accent);border-radius:8px;font-weight:600;color:var(--accent)}
-    .action.primary{background:var(--accent);color:#fff}
-    .action:hover{ text-decoration:underline;text-underline-offset:.2em }
-    .card a,.list a,footer a{color:var(--accent);text-decoration:underline;text-underline-offset:.2em}
-    .card h3 a{color:var(--ink)}
-    pre{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;overflow-x:auto;margin:16px 0;color:var(--ink)}
-    .lead{font-size:clamp(16px,2.2vw,20px);color:var(--steel);max-width:60ch;margin:0}
-    section{margin-top:72px}
-    .section-title{font-family:"Space Grotesk",system-ui,sans-serif;font-size:20px;text-transform:uppercase;letter-spacing:.16em;margin:0 0 24px}
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-    .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
-    .card h3{margin:0 0 12px;font-family:"Space Grotesk",system-ui,sans-serif;font-size:18px}
-    .card p{margin:0;color:var(--steel)}
-    .list{display:grid;gap:14px;color:var(--steel)}
-    .list p{display:block;margin:0;padding-left:14px;border-left:3px solid var(--accent)}
-    .list strong{color:var(--ink);font-weight:600}
-    footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;color:var(--steel);font-size:14px}
-    footer a{color:var(--steel)}
-    @media(max-width:700px){
-      .page{padding:36px 20px 56px}
-      .topbar{align-items:flex-start;flex-direction:column}
-      .grid{grid-template-columns:1fr}
-      section{margin-top:52px}
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--phyllotaxis-color-canvas); color: var(--phyllotaxis-color-text); font: 1rem/1.45 var(--phyllotaxis-font-body); }
+    ::selection { background: var(--phyllotaxis-color-selection); color: var(--phyllotaxis-color-text); }
+    a { color: var(--phyllotaxis-color-link); text-decoration: underline; text-underline-offset: .12em; }
+    a:visited { color: var(--phyllotaxis-color-link-visited); }
+    a:hover { text-decoration-thickness: 2px; text-underline-offset: .2em; }
+    a:focus-visible { outline: 3px solid var(--phyllotaxis-color-focus); outline-offset: 2px; }
+    code { font-family: var(--phyllotaxis-font-mono); font-size: .95em; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(1.65rem, 4vw, 2.35rem); line-height: 1.08; letter-spacing: -.02em; margin-bottom: .5rem; }
+    .page { width: min(var(--phyllotaxis-content-width-wide), calc(100% - 2 * var(--phyllotaxis-gutter-page))); margin-inline: auto; }
+    .topbar { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-block: .6rem; }
+    .brand, .brand:visited { color: var(--phyllotaxis-color-text); font-size: 1.35rem; font-weight: 700; text-decoration: none; }
+    .mark { font: 700 .8rem var(--phyllotaxis-font-mono); margin-right: .5rem; }
+    .nav, .actions, .footer-links { display: flex; flex-wrap: wrap; gap: .4rem .85rem; }
+    .nav { justify-content: flex-end; font-size: .875rem; }
+    .hero { padding: 1.5rem 0 1rem; display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(18rem, .55fr); gap: 1.5rem; align-items: start; }
+    .eyebrow { color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; font-weight: 700; text-transform: lowercase; margin-bottom: .25rem; }
+    .lead { max-width: var(--phyllotaxis-content-width-narrow); margin-bottom: .5rem; }
+    .actions { margin-top: 1rem; }
+    .action { display: inline-block; padding: .25rem .45rem; border: 1px solid #888; background: #eee; }
+    .action.primary { background: #ddd; border-color: #777; font-weight: 700; }
+    .action:hover { background: var(--surface-c); }
+    .maturity { margin: .5rem 0 0; color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; }
+    .maturity strong { color: #6a4d00; }
+    .model { border: 1px solid var(--phyllotaxis-color-border); }
+    .model-label { margin: 0; padding: .35rem .5rem; background: #e8e8e8; border-bottom: 1px solid var(--phyllotaxis-color-border); font-size: .8125rem; font-weight: 700; }
+    .model-list { list-style: none; margin: 0; padding: 0 .5rem; }
+    .model-list li { display: grid; grid-template-columns: 2rem 1fr; gap: .4rem; padding: .5rem 0; border-top: 1px solid #ddd; }
+    .model-list li:first-child { border-top: 0; }
+    .model-num { font: .8125rem var(--phyllotaxis-font-mono); color: var(--phyllotaxis-color-text-muted); }
+    .model-list strong { display: block; font-size: .95rem; }
+    .model-list small { display: block; font-size: .875rem; color: var(--phyllotaxis-color-text-muted); }
+    section { padding-block: 1rem; }
+    .section-title { font-size: clamp(1.35rem, 2.4vw, 1.55rem); line-height: 1.15; margin: 0 0 .5rem; padding: .35rem .5rem; }
+    .section-intro { margin: 0 .5rem .5rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card { min-width: 0; padding: .65rem .75rem; transition: background-color 120ms ease-out; }
+    .card h3 { font-size: 1rem; margin: 0 0 .25rem; }
+    .card p, .card ul { margin: 0 0 .4rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
+    .card ul { padding-left: 1.15rem; }
+    @media (hover: hover) {
+      .card:nth-child(3n+1):hover { background: var(--surface-a); }
+      .card:nth-child(3n+2):hover { background: var(--surface-b); }
+      .card:nth-child(3n):hover { background: var(--surface-c); }
     }
+    .list { display: grid; gap: .5rem; padding-inline: .75rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
+    .list p { margin: 0; }
+    .list strong { color: var(--phyllotaxis-color-text); }
+    .status-callout { margin: .5rem .5rem 0; padding: .6rem .75rem; border: 1px solid #8b6d00; background: #fff8d6; color: #443600; font-size: .875rem; }
+    .status-callout p { margin: 0; }
+    pre { max-width: 100%; overflow-x: auto; padding: .75rem; margin: .5rem .75rem; border: 1px solid var(--phyllotaxis-color-border); background: var(--phyllotaxis-color-surface); }
+    #verification > .lead { padding-inline: .75rem; }
+    footer { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 1rem; margin-top: 1rem; color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; }
+    @media (max-width: 760px) {
+      .topbar, footer { align-items: flex-start; flex-direction: column; }
+      .nav { justify-content: flex-start; }
+      .hero, .grid { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (prefers-reduced-motion: reduce) { .card { transition: none; } }
+    @media (forced-colors: active) { .action, .model, .status-callout, pre { border: 1px solid CanvasText; } }
   </style>
 </head>
 <body>
 <div class="page">
-  <div class="topbar"><div class="brand">Hyperion Community</div><nav class="nav" aria-label="Primary"><a href="#implementation">Engineering</a><a href="#scope">Architecture</a><a href="#verification">Verification</a><a href="#boundary">Security</a></nav></div>
-  <main>
+  <div class="topbar"><a class="brand" href="#top"><span class="mark" aria-hidden="true">Hy</span>Hyperion Community</a><nav class="nav" aria-label="Primary"><a href="#implementation">Engineering</a><a href="#scope">Architecture</a><a href="#verification">Verification</a><a href="#boundary">Security</a><a href="#roadmap">Roadmap</a></nav></div>
+  <main id="top">
     <header class="hero">
+      <div>
       <p class="eyebrow">Platform engineering · DevSecOps · Infrastructure as code</p>
       <h1>Reproducible infrastructure. Secure delivery.</h1>
       <p class="lead">Hyperion Community demonstrates how infrastructure provisioning, host bootstrap, Kubernetes and GitOps fit together under reproducible validation and explicit security boundaries. Explore real modules, hardened reference workloads and automated checks in a public, deployment-neutral codebase.</p>
       <div class="actions"><a class="action primary" href="https://github.com/hackelia-micrantha/hyperion-community">Explore source on GitHub</a><a class="action" href="https://github.com/hackelia-micrantha/hyperion-community/actions/workflows/ci.yml">Inspect CI evidence</a></div>
+      <p class="maturity"><strong>Incubating</strong> · Public reference implementation · Source alpha pending</p>
+      </div>
+      <aside class="model" aria-label="Hyperion system model">
+        <p class="model-label">The system, in four parts</p>
+        <ol class="model-list">
+          <li><span class="model-num" aria-hidden="true">01</span><span><strong>Infrastructure</strong><small>OpenTofu/Terraform and Incus reference inputs.</small></span></li>
+          <li><span class="model-num" aria-hidden="true">02</span><span><strong>Host bootstrap</strong><small>Ansible and K3s with explicit installation effects.</small></span></li>
+          <li><span class="model-num" aria-hidden="true">03</span><span><strong>Workload convergence</strong><small>Kubernetes, Kustomize and the Flux boundary.</small></span></li>
+          <li><span class="model-num" aria-hidden="true">04</span><span><strong>Verification</strong><small>Repeatable CI, policy checks and publication safety.</small></span></li>
+        </ol>
+      </aside>
     </header>
     <section id="implementation"><h2 class="section-title">Engineering in practice</h2><div class="grid">
       <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/terraform/modules">Infrastructure as code</a></h3><p>OpenTofu/Terraform modules for a synthetic reference environment and Incus instances. Inspect the <a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/examples/incus-instance">locked-provider example</a>, including synthetic disk and NIC configuration. Schema validation, not live provisioning.</p></div>
@@ -88,7 +137,19 @@ mise run doctor
 mise run lint
 mise run ci</code></pre>
       <div class="list"><p>Checks cover provider-schema validation, Ansible check mode, rendered Kubernetes manifests, security scanning and publication-boundary tests. Public tools and dependencies are downloaded; infrastructure is not deployed.</p>
-      <p><strong>Current maturity:</strong> inspectable source reference with synthetic validation. End-to-end K3s and Incus lifecycle, live Flux reconciliation, production provisioning and backup/restore are not qualified by this suite. See the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/releases/v0.1.0-alpha.1.md">draft source-alpha notes</a>; no release has been published.</p></div>
+      </div>
+      <div class="status-callout"><p><strong>Current maturity:</strong> inspectable source reference with synthetic validation. End-to-end K3s and Incus lifecycle, live Flux reconciliation, production provisioning and backup/restore are not qualified by this suite. See the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/releases/v0.1.0-alpha.1.md">draft source-alpha notes</a>; no release has been published.</p></div>
+    </section>
+    <section id="roadmap">
+      <h2 class="section-title">Prove the platform in stages.</h2>
+      <p class="section-intro">Planned work, not shipped capabilities. Public milestones prioritize independent verification before broader deployment claims.</p>
+      <div class="grid">
+        <article class="card"><h3>Now · Public source alpha</h3><p>Complete cold-consumer acceptance, source archive integrity and independent publication review.</p><p><a href="https://github.com/hackelia-micrantha/hyperion-community/issues/29">Source alpha qualification</a></p></article>
+        <article class="card"><h3>Next · Runtime and integration</h3><p>Prove disposable K3s server/agent lifecycle, Flux reconciliation and readiness, including teardown. Qualify pinned consumption and Incus lifecycle separately.</p><p><a href="https://github.com/hackelia-micrantha/hyperion-community/issues/16">K3s lifecycle</a> · <a href="https://github.com/hackelia-micrantha/hyperion-community/issues/18">Flux integration</a> · <a href="https://github.com/hackelia-micrantha/hyperion-community/issues/11">Component adoption</a></p></article>
+        <article class="card"><h3>Later · Operator experience</h3><p>Deliver Hyperctl as an independently installable, verified package with documentation, completions and explicit updates. No binary release is currently available.</p><p><a href="https://github.com/hackelia-micrantha/hyperion-community/issues/2">Hyperctl distribution</a></p></article>
+        <article class="card"><h3>Longer-term · Operational assurance</h3><p>Rootless Podman-backed role testing, exact-revision deployment readiness evidence, Sigstore/in-toto provenance, exercised rollback and recovery, and drift detection. These are engineering goals, not public runtime support claims.</p></article>
+      </div>
+      <p class="section-intro"><a href="https://github.com/hackelia-micrantha/hyperion-community/issues">Browse public issues</a> · No release dates or production-readiness guarantees.</p>
     </section>
     <section id="boundary"><h2 class="section-title">Public/private trust boundary</h2><div class="list">
       <p>Public examples are purpose-built reference inputs, not redacted copies of live environments.</p>
@@ -97,7 +158,7 @@ mise run ci</code></pre>
       <p>The Apache-2.0 license applies to Hyperion Community only.</p>
     </div></section>
   </main>
-  <footer><span>Hyperion Community · Apache-2.0</span><span><a href="https://github.com/hackelia-micrantha/hyperion-community">Source and documentation</a></span></footer>
+  <footer><span>Hyperion Community · Apache-2.0</span><nav class="footer-links" aria-label="Project links"><a href="https://github.com/hackelia-micrantha/hyperion-community">Source and documentation</a><a href="#roadmap">Roadmap</a><a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/SECURITY.md">Security</a></nav></footer>
 </div>
 </body>
 </html>
