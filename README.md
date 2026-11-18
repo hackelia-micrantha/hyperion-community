@@ -1,8 +1,32 @@
 # Hyperion Community
 
-Hyperion Community contains the reusable, deployment-neutral components of a privately operated infrastructure platform. Environment configuration, credentials, live cluster state, and deployment-specific composition remain private.
+**Reproducible infrastructure. Secure delivery. Inspectable engineering.**
 
-This is an inspectable public reference implementation, not a dump or mirror of the private operational source.
+[![CI](https://github.com/hackelia-micrantha/hyperion-community/actions/workflows/ci.yml/badge.svg)](https://github.com/hackelia-micrantha/hyperion-community/actions/workflows/ci.yml) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+
+Hyperion Community is a public platform engineering reference implementation for infrastructure as code, Kubernetes, GitOps, CI/CD and infrastructure security. It demonstrates how to separate infrastructure provisioning, host bootstrap and workload reconciliation while keeping validation reproducible and deployment authority bounded.
+
+The repository contains executable, deployment-neutral modules and examples, not just architecture documents. It is the reusable public surface of a privately operated platform; live environment composition, credentials and operational state remain private.
+
+[Explore the architecture](docs/architecture/README.md) · [Inspect CI](https://github.com/hackelia-micrantha/hyperion-community/actions/workflows/ci.yml) · [Verify from a fresh clone](#fresh-clone-verification)
+
+## Engineering evidence
+
+| Discipline | Inspectable implementation | Verification |
+| --- | --- | --- |
+| Infrastructure as code | [Reference environment](terraform/modules/reference_environment/) and [Incus instance module](terraform/modules/incus_instance/) | OpenTofu validation against synthetic inputs and a locked provider schema; TFLint |
+| Host automation | [K3s bootstrap role](ansible/roles/k3s/) | Ansible syntax, check mode and lint; opt-in checksum-verified binary acquisition |
+| Kubernetes security | [Hardened workload](k8s/base/) and [local overlay](k8s/examples/local/) | Kustomize rendering, strict Kubernetes schema checks, IaC policy scanning |
+| GitOps | [Immutable source consumption](k8s/flux/) | Documented Flux integration boundary; no live reconciliation claim |
+| Secure software delivery | [Hosted CI](.github/workflows/ci.yml) and [mise tasks](mise.toml) | Read-only, commit-pinned Actions; common local and CI tasks |
+| Threat modeling and governance | [Threat model](docs/security/threat-model.md) and [publication audit](scripts/publication_audit.py) | Regression tests for representative private-data leakage classes |
+
+### Design decisions
+
+- **Separate ownership:** OpenTofu/Terraform defines infrastructure, Ansible handles bootstrap, Kubernetes defines workloads, and Flux provides the intended reconciliation boundary. See the [ownership model](docs/architecture/ownership.md).
+- **Fail-safe automation:** validation does not provision infrastructure or require operational secrets; installation effects are explicit.
+- **Security by construction:** restricted Pod Security, default-deny networking, immutable image references and least-privilege CI are inspectable in source.
+- **Evidence over claims:** distinguish schema and source validation from runtime qualification. The [draft source-alpha notes](docs/releases/v0.1.0-alpha.1.md) document the current limits; no release has been published.
 
 ## What is implemented
 
@@ -16,7 +40,7 @@ This is an inspectable public reference implementation, not a dump or mirror of 
 
 ## Fresh-clone verification
 
-Install [mise](https://mise.jdx.dev/), then run:
+The hosted verification path runs on Ubuntu 24.04. In a disposable checkout, install [mise](https://mise.jdx.dev/), then run:
 
 ```bash
 mise install
@@ -25,7 +49,7 @@ mise run lint
 mise run ci
 ```
 
-The basic path requires no private repository, private cluster, cloud credential, or deployment secret.
+The basic path requires no private repository, private cluster, cloud credential, or deployment secret. It downloads public tools and dependencies and creates local validation files.
 
 CI validates the provider-free Terraform example and initializes the Incus example only to check provider/schema compatibility (no plan, apply, backend state, or Incus API connection). It also executes the Ansible example in check mode, renders synthetic Kubernetes manifests, and runs static/publication security checks. It does not deploy infrastructure.
 
@@ -101,7 +125,7 @@ See [SECURITY.md](SECURITY.md) and [publication review](docs/security/publicatio
 
 ## Maturity and limitations
 
-The source-level and synthetic validation path is real. This initial slice does **not** claim:
+Current maturity: an independently inspectable source reference with synthetic validation. It is not a production-ready distribution or a published release. This slice does **not** claim:
 
 - end-to-end K3s cluster creation or upgrade lifecycle;
 - production-ready cloud provisioning;
