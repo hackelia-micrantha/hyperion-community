@@ -109,7 +109,7 @@
       <h1>Reproducible infrastructure. Secure delivery.</h1>
       <p class="lead">Hyperion Community demonstrates how infrastructure provisioning, host bootstrap, Kubernetes and GitOps fit together under reproducible validation and explicit security boundaries. Explore real modules, hardened reference workloads and automated checks in a public, deployment-neutral codebase.</p>
       <div class="actions"><a class="action primary" href="https://github.com/hackelia-micrantha/hyperion-community">Explore source on GitHub</a><a class="action" href="https://github.com/hackelia-micrantha/hyperion-community/actions/workflows/ci.yml">Inspect CI evidence</a></div>
-      <p class="maturity"><strong>Incubating</strong> · Public reference implementation · Source alpha pending</p>
+      <p class="maturity"><strong>In internal use</strong> · Public source reference · Source alpha pending</p>
       </div>
       <aside class="model" aria-label="Hyperion system model">
         <p class="model-label">The system, in four parts</p>
@@ -129,7 +129,7 @@
       <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/.github/workflows/ci.yml">Reproducible CI/CD</a></h3><p>Hosted, read-only GitHub Actions with immutable action references and the same <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/mise.toml">mise task interface</a> used locally. Includes OpenTofu, TFLint, Kubeconform, Trivy and Checkov.</p></div>
       <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/security/threat-model.md">Infrastructure security</a></h3><p>Trust-boundary analysis, publication review, provenance checks and <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/scripts/publication_audit.py">automated leakage detection</a> with regression tests.</p></div>
     </div>
-      <div class="status-callout"><p><strong>Current maturity:</strong> public reference implementation with automated source validation. Live platform operation and recovery remain future qualification work. See the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/releases/v0.1.0-alpha.1.md">draft source-alpha notes</a>; no release has been published.</p></div>
+      <div class="status-callout"><p><strong>Current maturity:</strong> Hyperion is running internally on Dubnium. The public Community edition is a reference implementation with automated source validation; independent runtime and recovery qualification remain outstanding. See the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/releases/v0.1.0-alpha.1.md">draft source-alpha notes</a>; no release has been published.</p></div>
     </section>
     <section id="scope"><h2 class="section-title">Architecture and trade-offs</h2><div class="list">
       <p><strong>Layered ownership.</strong> OpenTofu/Terraform defines infrastructure, Ansible handles bootstrap, Kubernetes defines workloads, and Flux provides the intended reconciliation boundary. Read the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/architecture/README.md">architecture overview</a>.</p>
