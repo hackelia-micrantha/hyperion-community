@@ -12,23 +12,24 @@
       --phyllotaxis-space-sm: .5rem;
       --phyllotaxis-space-md: 1rem;
       --phyllotaxis-space-lg: 1.5rem;
-      --phyllotaxis-gutter-page: clamp(.75rem, 2.5vw, 1.5rem);
-      --phyllotaxis-content-width-narrow: 42rem;
+      --phyllotaxis-gutter-page: 1rem;
+      --phyllotaxis-content-width-narrow: 46rem;
       --phyllotaxis-content-width-wide: 82rem;
-      --phyllotaxis-font-body: Arial, Helvetica, sans-serif;
-      --phyllotaxis-font-mono: "Courier New", Courier, monospace;
+      --phyllotaxis-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --phyllotaxis-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --phyllotaxis-color-canvas: #fff;
-      --phyllotaxis-color-surface: #f4f4f4;
+      --phyllotaxis-color-surface: #f5f5f5;
       --phyllotaxis-color-text: #111;
       --phyllotaxis-color-text-muted: #555;
-      --phyllotaxis-color-border: #b8b8b8;
+      --phyllotaxis-color-border: #a0a0a0;
       --phyllotaxis-color-link: #0000ee;
       --phyllotaxis-color-link-visited: #551a8b;
-      --phyllotaxis-color-focus: #c45500;
-      --phyllotaxis-color-selection: #ffef9c;
-      --surface-a: #e9f0e7;
-      --surface-b: #e8eef3;
-      --surface-c: #f1eadc;
+      --phyllotaxis-color-focus: #111111;
+      --phyllotaxis-color-selection: #cfe3ff;
+      --surface-a: #e8efe7;
+      --surface-b: #e8eef4;
+      --surface-c: #f3ecdf;
+      --surface-d: #eee9f1;
     }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--phyllotaxis-color-canvas); color: var(--phyllotaxis-color-text); font: 1rem/1.45 var(--phyllotaxis-font-body); }
@@ -39,64 +40,70 @@
     a:focus-visible { outline: 3px solid var(--phyllotaxis-color-focus); outline-offset: 2px; }
     code { font-family: var(--phyllotaxis-font-mono); font-size: .95em; }
     h1, h2, h3, p { margin-top: 0; }
-    h1 { font-size: clamp(1.65rem, 4vw, 2.35rem); line-height: 1.08; letter-spacing: -.02em; margin-bottom: .5rem; }
+    h1 { font-size: 1.75rem; line-height: 1.15; letter-spacing: -.02em; margin-bottom: .5rem; }
     .page { width: min(var(--phyllotaxis-content-width-wide), calc(100% - 2 * var(--phyllotaxis-gutter-page))); margin-inline: auto; }
-    .topbar { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-block: .6rem; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .5rem; }
     .brand, .brand:visited { color: var(--phyllotaxis-color-text); font-size: 1.35rem; font-weight: 700; text-decoration: none; }
-    .mark { font: 700 .8rem var(--phyllotaxis-font-mono); margin-right: .5rem; }
+    .mark { display: inline-block; min-width: 2.5rem; padding: .25rem; border: 1px solid var(--phyllotaxis-color-border); font: 700 1rem/1 var(--phyllotaxis-font-mono); text-align: center; margin-right: .5rem; }
     .nav, .actions, .footer-links { display: flex; flex-wrap: wrap; gap: .4rem .85rem; }
     .nav { justify-content: flex-end; font-size: .875rem; }
-    .hero { padding: 1.5rem 0 1rem; display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(18rem, .55fr); gap: 1.5rem; align-items: start; }
-    .eyebrow { color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; font-weight: 700; text-transform: lowercase; margin-bottom: .25rem; }
+    .hero { padding: 2rem 0; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 2rem; align-items: center; }
+    .eyebrow { color: var(--phyllotaxis-color-text-muted); font-size: .875rem; font-weight: 700; text-transform: lowercase; margin-bottom: .25rem; }
     .lead { max-width: var(--phyllotaxis-content-width-narrow); margin-bottom: .5rem; }
     .actions { margin-top: 1rem; }
-    .action { display: inline-block; padding: .25rem .45rem; border: 1px solid #888; background: #eee; }
-    .action.primary { background: #ddd; border-color: #777; font-weight: 700; }
-    .action:hover { background: var(--surface-c); }
-    .maturity { margin: .5rem 0 0; color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; }
+    .action { display: inline-block; padding: .25rem .5rem; border: 1px solid var(--phyllotaxis-color-border); border-radius: 0; background: var(--phyllotaxis-color-canvas); }
+    .action.primary { border-color: var(--phyllotaxis-color-text-muted); font-weight: 700; }
+    .action:hover { border-color: currentColor; }
+    .maturity { margin: .5rem 0 0; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
     .maturity strong { color: #6a4d00; }
-    .model { border: 1px solid var(--phyllotaxis-color-border); }
-    .model-label { margin: 0; padding: .35rem .5rem; background: #e8e8e8; border-bottom: 1px solid var(--phyllotaxis-color-border); font-size: .8125rem; font-weight: 700; }
+    .model { min-width: 0; border: 1px solid var(--phyllotaxis-color-border); }
+    .model-label { margin: 0; padding: .35rem .5rem; background: var(--phyllotaxis-color-canvas); border-bottom: 1px solid var(--phyllotaxis-color-border); color: var(--phyllotaxis-color-text-muted); font: 700 .875rem/1.4 var(--phyllotaxis-font-mono); text-transform: uppercase; }
     .model-list { list-style: none; margin: 0; padding: 0 .5rem; }
     .model-list li { display: grid; grid-template-columns: 2rem 1fr; gap: .4rem; padding: .5rem 0; border-top: 1px solid #ddd; }
     .model-list li:first-child { border-top: 0; }
     .model-num { font: .8125rem var(--phyllotaxis-font-mono); color: var(--phyllotaxis-color-text-muted); }
     .model-list strong { display: block; font-size: .95rem; }
     .model-list small { display: block; font-size: .875rem; color: var(--phyllotaxis-color-text-muted); }
-    section { padding-block: 1rem; }
-    .section-title { font-size: clamp(1.35rem, 2.4vw, 1.55rem); line-height: 1.15; margin: 0 0 .5rem; padding: .35rem .5rem; }
-    .section-intro { margin: 0 .5rem .5rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .card { min-width: 0; padding: .65rem .75rem; transition: background-color 120ms ease-out; }
-    #implementation .grid { gap: .75rem; padding-inline: .5rem; }
+    section { padding-block: 2rem; }
+    .section-title { font-size: 1.25rem; line-height: 1.25; margin: 0 0 .5rem; }
+    .section-intro { max-width: 70rem; margin: .25rem 0 1.5rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+    .card { min-width: 0; }
     #implementation .card {
-      padding: .85rem 1rem;
+      padding: 1.5rem;
       border: 1px solid var(--phyllotaxis-color-border);
-      border-radius: 0;
-      background: var(--phyllotaxis-color-surface);
+      border-radius: 12px;
+      background: var(--surface-a);
     }
+    #implementation .card:nth-child(4n + 2) { background: var(--surface-b); }
+    #implementation .card:nth-child(4n + 3) { background: var(--surface-c); }
+    #implementation .card:nth-child(4n) { background: var(--surface-d); }
     #implementation .card:focus-within { border-color: var(--phyllotaxis-color-focus); }
     .card h3 { font-size: 1rem; margin: 0 0 .25rem; }
-    .card p, .card ul { margin: 0 0 .4rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
-    .card ul { padding-left: 1.15rem; }
-    @media (hover: hover) {
-      #implementation .card:nth-child(3n+1):hover, .card:nth-child(3n+1):hover { background: var(--surface-a); }
-      #implementation .card:nth-child(3n+2):hover, .card:nth-child(3n+2):hover { background: var(--surface-b); }
-      #implementation .card:nth-child(3n):hover, .card:nth-child(3n):hover { background: var(--surface-c); }
-    }
-    .list { display: grid; gap: .5rem; padding-inline: .75rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
+    .card p { margin: 0 0 .4rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
+    #implementation .card p { font-size: 1rem; margin-bottom: .5rem; }
+    #implementation .card p:last-child { margin-bottom: 0; }
+    #roadmap .card { padding-top: 1rem; border-top: 2px solid var(--phyllotaxis-color-border); }
+    #roadmap .card:first-child { border-top-color: #315e46; }
+    #roadmap .card h3 { font-size: 1.25rem; line-height: 1.25; }
+    .list { display: grid; gap: .5rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
     .list p { margin: 0; }
     .list strong { color: var(--phyllotaxis-color-text); }
-    .status-callout { margin: .5rem .5rem 0; padding: .6rem .75rem; border: 1px solid #8b6d00; background: #fff8d6; color: #443600; font-size: .875rem; }
+    .status-callout { margin: 1.5rem 0 0; padding: .5rem 1rem; border-left: 3px solid #8b6d00; background: var(--phyllotaxis-color-canvas); color: #443600; font-size: .875rem; }
     .status-callout p { margin: 0; }
-    footer { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 1rem; margin-top: 1rem; color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; }
+    footer { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 1rem; margin-top: 1rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
     @media (max-width: 760px) {
       .topbar, footer { align-items: flex-start; flex-direction: column; }
       .nav { justify-content: flex-start; }
       .hero, .grid { grid-template-columns: minmax(0, 1fr); }
+      .model { max-width: 32rem; margin-inline: auto; width: 100%; }
     }
-    @media (prefers-reduced-motion: reduce) { .card { transition: none; } }
-    @media (forced-colors: active) { .action, .model, .status-callout, #implementation .card { border: 1px solid CanvasText; } }
+    @media (forced-colors: active) {
+      .action, .mark, .model, #implementation .card { border: 1px solid CanvasText; }
+      #roadmap .card, #roadmap .card:first-child, .model-list li { border-top-color: CanvasText; }
+      .model-label { border-bottom-color: CanvasText; }
+      .status-callout { border-left-color: CanvasText; }
+    }
   </style>
 </head>
 <body>
@@ -107,7 +114,7 @@
       <div>
       <p class="eyebrow">Platform engineering · DevSecOps · Infrastructure as code</p>
       <h1>Reproducible infrastructure. Secure delivery.</h1>
-      <p class="lead">Hyperion Community demonstrates how infrastructure provisioning, host bootstrap, Kubernetes and GitOps fit together under reproducible validation and explicit security boundaries. Explore real modules, hardened reference workloads and automated checks in a public, deployment-neutral codebase.</p>
+      <p class="lead">Hyperion is a platform engineering project for reproducible cloud and local infrastructure, lightweight Kubernetes and secure delivery. Explore its public reference modules and engineering evidence, alongside the broader direction of the internally operated platform.</p>
       <div class="actions"><a class="action primary" href="https://github.com/hackelia-micrantha/hyperion-community">Explore source on GitHub</a><a class="action" href="https://github.com/hackelia-micrantha/hyperion-community/actions/workflows/ci.yml">Inspect CI evidence</a></div>
       <p class="maturity"><strong>In internal use</strong> · Public source reference · Source alpha pending</p>
       </div>
@@ -121,19 +128,25 @@
         </ol>
       </aside>
     </header>
-    <section id="implementation"><h2 class="section-title">Engineering in practice</h2><div class="grid">
-      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/terraform/modules">Infrastructure as code</a></h3><p>OpenTofu/Terraform modules for a synthetic reference environment and Incus instances. Inspect the <a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/examples/incus-instance">locked-provider example</a>, including synthetic disk and NIC configuration. Schema validation, not live provisioning.</p></div>
-      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/ansible/roles/k3s">Host bootstrap</a></h3><p>Ansible/K3s automation with non-mutating defaults and explicit, checksum-verified binary acquisition. Verified with syntax checks, lint and check mode.</p></div>
-      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/k8s/base">Kubernetes security</a></h3><p>Digest-pinned workload, restricted Pod Security, disabled service-account token automount, default-deny network policy and a <a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/k8s/examples/local">Kustomize overlay</a>.</p></div>
-      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/k8s/flux">GitOps delivery</a></h3><p>Pinned Flux tooling and documented immutable-source consumption. Reconciliation into a live cluster is not yet qualified by the public suite.</p></div>
-      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/.github/workflows/ci.yml">Reproducible CI/CD</a></h3><p>Hosted, read-only GitHub Actions with immutable action references and the same <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/mise.toml">mise task interface</a> used locally. Includes OpenTofu, TFLint, Kubeconform, Trivy and Checkov.</p></div>
-      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/security/threat-model.md">Infrastructure security</a></h3><p>Trust-boundary analysis, publication review, provenance checks and <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/scripts/publication_audit.py">automated leakage detection</a> with regression tests.</p></div>
+    <section id="implementation"><h2 class="section-title">Engineering in practice</h2>
+      <p class="section-intro">Public reference evidence and internal engineering scope are distinguished below. Internal source is not part of the Community distribution; implemented configuration does not imply runtime qualification.</p>
+      <div class="grid">
+      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/terraform/modules">Cloud infrastructure</a></h3><p><strong>Public:</strong> OpenTofu reference modules for infrastructure and Incus, validated without live provisioning.</p><p><strong>Internal:</strong> Infrastructure definitions for AWS, Azure, DigitalOcean and local virtualization (Libvirt and Incus); provider and runtime qualification varies.</p></div>
+      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/ansible/roles/k3s">Host automation</a></h3><p><strong>Public:</strong> Ansible and K3s bootstrap with non-mutating defaults and checksum-verified installation.</p><p><strong>Internal:</strong> Environment-aware host provisioning and cluster configuration.</p></div>
+      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/k8s/base">Kubernetes and GitOps</a></h3><p><strong>Public:</strong> Hardened Kubernetes workloads, <a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/k8s/examples/local">Kustomize overlays</a> and <a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/k8s/flux">immutable Flux source patterns</a>.</p><p><strong>Internal:</strong> Shared workload definitions with environment-specific reconciliation.</p></div>
+      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/security/threat-model.md">Infrastructure security</a></h3><p><strong>Public:</strong> Restricted Pod Security, default-deny networking, threat modeling and <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/scripts/publication_audit.py">publication leakage checks</a>.</p><p><strong>Internal:</strong> SOPS/age and Ansible Vault secret management, with deployment credentials separated from routine CI.</p></div>
+      <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/.github/workflows/ci.yml">Reproducible CI/CD</a></h3><p><strong>Public:</strong> Read-only, commit-pinned CI, shared <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/mise.toml">mise tasks</a>, schema validation and security scanning with Trivy and Checkov.</p><p><strong>Internal:</strong> Locked Nix toolchain and daemon-free compliance; isolated rootless role testing is still being qualified.</p></div>
+      <div class="card"><h3>Software supply-chain security</h3><p><strong>Public:</strong> Digest-pinned example images, exact tool versions and <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/architecture/provenance.md">publication provenance review</a>.</p><p><strong>Internal:</strong> Default-deny registry admission policy separates package trust, pull authorization and image provenance. Runtime acceptance is separate.</p></div>
+      <div class="card"><h3>Observability</h3><p><strong>Internal:</strong> GitOps-managed Loki and Fluent Bit configuration for resource-bounded, cluster-local logging. Storage is ephemeral; durable retention and recovery are not yet qualified.</p><p>Not part of the current public source distribution.</p></div>
+      <div class="card"><h3>Developer and operator experience</h3><p><strong>Public:</strong> Consistent mise workflow and documented ownership boundaries.</p><p><strong>Internal:</strong> Nix-based tooling and a read-only Hyperctl prototype. <a href="https://github.com/hackelia-micrantha/hyperion-community/issues/2">Public CLI packaging</a> and broader lifecycle commands remain planned.</p></div>
     </div>
       <div class="status-callout"><p><strong>Current maturity:</strong> Hyperion is running internally on Dubnium. The public Community edition is a reference implementation with automated source validation; independent runtime and recovery qualification remain outstanding. See the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/releases/v0.1.0-alpha.1.md">draft source-alpha notes</a>; no release has been published.</p></div>
     </section>
     <section id="scope"><h2 class="section-title">Architecture and trade-offs</h2><div class="list">
       <p><strong>Layered ownership.</strong> OpenTofu/Terraform defines infrastructure, Ansible handles bootstrap, Kubernetes defines workloads, and Flux provides the intended reconciliation boundary. Read the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/architecture/README.md">architecture overview</a>.</p>
       <p><strong>Explicit effects.</strong> The verification path operates on synthetic inputs, not live infrastructure. The public Incus example checks the provider schema without planning or applying changes.</p>
+      <p><strong>Portable infrastructure.</strong> Use common infrastructure automation across cloud providers and local virtualization without requiring every workload to run on Kubernetes. Provider-specific lifecycle qualification remains separate.</p>
+      <p><strong>Application and infrastructure separation.</strong> Applications own their builds and releases; the platform is evolving toward explicit infrastructure lifecycle ownership and independently reviewed deployment configuration.</p>
       <p><strong>Bounded authority.</strong> Public CI is read-only and does not need private deployment credentials. The public repository is independently inspectable without access to private operational source.</p>
     </div></section>
     <section id="roadmap">
@@ -143,7 +156,7 @@
         <article class="card"><h3>Now · Public source alpha</h3><p>Complete cold-consumer acceptance, source archive integrity and independent publication review.</p><p><a href="https://github.com/hackelia-micrantha/hyperion-community/issues/29">Source alpha qualification</a></p></article>
         <article class="card"><h3>Next · Runtime and integration</h3><p>Prove disposable K3s server/agent lifecycle, Flux reconciliation and readiness, including teardown. Qualify pinned consumption and Incus lifecycle separately.</p><p><a href="https://github.com/hackelia-micrantha/hyperion-community/issues/16">K3s lifecycle</a> · <a href="https://github.com/hackelia-micrantha/hyperion-community/issues/18">Flux integration</a> · <a href="https://github.com/hackelia-micrantha/hyperion-community/issues/11">Component adoption</a></p></article>
         <article class="card"><h3>Later · Operator experience</h3><p>Deliver Hyperctl as an independently installable, verified package with documentation, completions and explicit updates. No binary release is currently available.</p><p><a href="https://github.com/hackelia-micrantha/hyperion-community/issues/2">Hyperctl distribution</a></p></article>
-        <article class="card"><h3>Longer-term · Operational assurance</h3><p>Rootless Podman-backed role testing, exact-revision deployment readiness evidence, Sigstore/in-toto provenance, exercised rollback and recovery, and drift detection. These are engineering goals, not public runtime support claims.</p></article>
+        <article class="card"><h3>Longer-term · Operational assurance</h3><p>Rootless Podman-backed role testing, exact-revision deployment readiness evidence, Sigstore/in-toto provenance, exercised rollback and recovery, and drift detection. Expand OpenTofu infrastructure ownership to serverless workloads, with isolated state and explicit ownership handoffs. These are engineering goals, not public runtime support claims.</p></article>
       </div>
       <p class="section-intro"><a href="https://github.com/hackelia-micrantha/hyperion-community/issues">Browse public issues</a> · No release dates or production-readiness guarantees.</p>
     </section>
