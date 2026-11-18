@@ -136,6 +136,19 @@ Current maturity: an independently inspectable source reference with synthetic v
 
 Those capabilities require separate runtime evidence before they can be represented as supported.
 
+## Roadmap — planned, not shipped
+
+The next milestones prioritize runtime and consumer evidence over adding new platform components.
+
+| Horizon | Engineering outcome | Tracking |
+| --- | --- | --- |
+| Now | Qualify the public source alpha through independent fresh-clone acceptance, archive integrity and publication review | [#29](https://github.com/hackelia-micrantha/hyperion-community/issues/29) |
+| Next | Prove disposable K3s server/agent lifecycle and Flux reconciliation, including readiness and teardown | [#16](https://github.com/hackelia-micrantha/hyperion-community/issues/16), [#18](https://github.com/hackelia-micrantha/hyperion-community/issues/18) |
+| Next | Qualify version-pinned component consumption and Incus lifecycle independently of provider-schema validation | [#11](https://github.com/hackelia-micrantha/hyperion-community/issues/11) |
+| Later | Distribute Hyperctl as a verifiable, independently installable operator CLI package | [#2](https://github.com/hackelia-micrantha/hyperion-community/issues/2) |
+
+Longer-term platform engineering goals include rootless Podman-backed role testing, exact-revision deployment readiness evidence, signed build and deployment provenance (Sigstore/in-toto), and exercised rollback, drift detection and recovery. These are design directions, not capabilities distributed or validated by this repository. No release dates or production-readiness guarantees are implied.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
