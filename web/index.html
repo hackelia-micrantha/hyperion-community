@@ -89,8 +89,6 @@
     .list strong { color: var(--phyllotaxis-color-text); }
     .status-callout { margin: .5rem .5rem 0; padding: .6rem .75rem; border: 1px solid #8b6d00; background: #fff8d6; color: #443600; font-size: .875rem; }
     .status-callout p { margin: 0; }
-    pre { max-width: 100%; overflow-x: auto; padding: .75rem; margin: .5rem .75rem; border: 1px solid var(--phyllotaxis-color-border); background: var(--phyllotaxis-color-surface); }
-    #verification > .lead { padding-inline: .75rem; }
     footer { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 1rem; margin-top: 1rem; color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; }
     @media (max-width: 760px) {
       .topbar, footer { align-items: flex-start; flex-direction: column; }
@@ -98,12 +96,12 @@
       .hero, .grid { grid-template-columns: minmax(0, 1fr); }
     }
     @media (prefers-reduced-motion: reduce) { .card { transition: none; } }
-    @media (forced-colors: active) { .action, .model, .status-callout, pre, #implementation .card { border: 1px solid CanvasText; } }
+    @media (forced-colors: active) { .action, .model, .status-callout, #implementation .card { border: 1px solid CanvasText; } }
   </style>
 </head>
 <body>
 <div class="page">
-  <div class="topbar"><a class="brand" href="#top"><span class="mark" aria-hidden="true">Hy</span>Hyperion Community</a><nav class="nav" aria-label="Primary"><a href="#implementation">Engineering</a><a href="#scope">Architecture</a><a href="#verification">Verification</a><a href="#boundary">Security</a><a href="#roadmap">Roadmap</a></nav></div>
+  <div class="topbar"><a class="brand" href="#top"><span class="mark" aria-hidden="true">Hy</span>Hyperion Community</a><nav class="nav" aria-label="Primary"><a href="#implementation">Engineering</a><a href="#scope">Architecture</a><a href="#boundary">Security</a><a href="#roadmap">Roadmap</a></nav></div>
   <main id="top">
     <header class="hero">
       <div>
@@ -130,24 +128,14 @@
       <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/tree/main/k8s/flux">GitOps delivery</a></h3><p>Pinned Flux tooling and documented immutable-source consumption. Reconciliation into a live cluster is not yet qualified by the public suite.</p></div>
       <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/.github/workflows/ci.yml">Reproducible CI/CD</a></h3><p>Hosted, read-only GitHub Actions with immutable action references and the same <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/mise.toml">mise task interface</a> used locally. Includes OpenTofu, TFLint, Kubeconform, Trivy and Checkov.</p></div>
       <div class="card"><h3><a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/security/threat-model.md">Infrastructure security</a></h3><p>Trust-boundary analysis, publication review, provenance checks and <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/scripts/publication_audit.py">automated leakage detection</a> with regression tests.</p></div>
-    </div></section>
+    </div>
+      <div class="status-callout"><p><strong>Current maturity:</strong> public reference implementation with automated source validation. Live platform operation and recovery remain future qualification work. See the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/releases/v0.1.0-alpha.1.md">draft source-alpha notes</a>; no release has been published.</p></div>
+    </section>
     <section id="scope"><h2 class="section-title">Architecture and trade-offs</h2><div class="list">
       <p><strong>Layered ownership.</strong> OpenTofu/Terraform defines infrastructure, Ansible handles bootstrap, Kubernetes defines workloads, and Flux provides the intended reconciliation boundary. Read the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/architecture/README.md">architecture overview</a>.</p>
       <p><strong>Explicit effects.</strong> The verification path operates on synthetic inputs, not live infrastructure. The public Incus example checks the provider schema without planning or applying changes.</p>
       <p><strong>Bounded authority.</strong> Public CI is read-only and does not need private deployment credentials. The public repository is independently inspectable without access to private operational source.</p>
     </div></section>
-    <section id="verification"><h2 class="section-title">Verify from a fresh clone</h2>
-      <p class="lead">Use a disposable checkout and install mise. The hosted CI contract runs on Ubuntu 24.04.</p>
-      <pre><code>git clone https://github.com/hackelia-micrantha/hyperion-community.git
-cd hyperion-community
-mise install
-mise run doctor
-mise run lint
-mise run ci</code></pre>
-      <div class="list"><p>Checks cover provider-schema validation, Ansible check mode, rendered Kubernetes manifests, security scanning and publication-boundary tests. Public tools and dependencies are downloaded; infrastructure is not deployed.</p>
-      </div>
-      <div class="status-callout"><p><strong>Current maturity:</strong> inspectable source reference with synthetic validation. End-to-end K3s and Incus lifecycle, live Flux reconciliation, production provisioning and backup/restore are not qualified by this suite. See the <a href="https://github.com/hackelia-micrantha/hyperion-community/blob/main/docs/releases/v0.1.0-alpha.1.md">draft source-alpha notes</a>; no release has been published.</p></div>
-    </section>
     <section id="roadmap">
       <h2 class="section-title">Prove the platform in stages.</h2>
       <p class="section-intro">Planned work, not shipped capabilities. Public milestones prioritize independent verification before broader deployment claims.</p>
