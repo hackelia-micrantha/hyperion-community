@@ -38,6 +38,8 @@ The repository contains executable, deployment-neutral modules and examples, not
 - **Security/validation** — publication leakage tests, Terraform lint/validation, Ansible lint/check mode, Kubernetes schema validation, Trivy, and Checkov.
 - **Architecture/governance** — public/private boundary, ownership model, provenance review, and threat model.
 
+The broader internally operated Hyperion platform is running on Dubnium. Its source includes multi-provider infrastructure definitions (AWS, Azure, DigitalOcean and local virtualization), environment-aware GitOps overlays, a locked Nix toolchain, SOPS/age and Ansible Vault secret management, registry trust policy and local Loki/Fluent Bit logging configuration. These are internal implementation areas, not additional public Community modules or independently qualified runtime guarantees. Hyperctl remains a read-only prototype; public packaging and lifecycle commands are planned.
+
 ## Fresh-clone verification
 
 The hosted verification path runs on Ubuntu 24.04. In a disposable checkout, install [mise](https://mise.jdx.dev/), then run:
@@ -147,7 +149,7 @@ The next milestones prioritize runtime and consumer evidence over adding new pla
 | Next | Qualify version-pinned component consumption and Incus lifecycle independently of provider-schema validation | [#11](https://github.com/hackelia-micrantha/hyperion-community/issues/11) |
 | Later | Distribute Hyperctl as a verifiable, independently installable operator CLI package | [#2](https://github.com/hackelia-micrantha/hyperion-community/issues/2) |
 
-Longer-term platform engineering goals include rootless Podman-backed role testing, exact-revision deployment readiness evidence, signed build and deployment provenance (Sigstore/in-toto), and exercised rollback, drift detection and recovery. These are design directions, not capabilities distributed or validated by this repository. No release dates or production-readiness guarantees are implied.
+Longer-term platform engineering goals include rootless Podman-backed role testing, exact-revision deployment readiness evidence, signed build and deployment provenance (Sigstore/in-toto), and exercised rollback, drift detection and recovery. These are design directions, not capabilities distributed or validated by this repository. The platform direction also includes OpenTofu ownership of serverless infrastructure, with isolated state and explicit handoffs that preserve application-owned builds and releases. No release dates or production-readiness guarantees are implied.
 
 ## Contributing
 
