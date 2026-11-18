@@ -12,23 +12,24 @@
       --phyllotaxis-space-sm: .5rem;
       --phyllotaxis-space-md: 1rem;
       --phyllotaxis-space-lg: 1.5rem;
-      --phyllotaxis-gutter-page: clamp(.75rem, 2.5vw, 1.5rem);
-      --phyllotaxis-content-width-narrow: 42rem;
+      --phyllotaxis-gutter-page: 1rem;
+      --phyllotaxis-content-width-narrow: 46rem;
       --phyllotaxis-content-width-wide: 82rem;
-      --phyllotaxis-font-body: Arial, Helvetica, sans-serif;
-      --phyllotaxis-font-mono: "Courier New", Courier, monospace;
+      --phyllotaxis-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --phyllotaxis-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --phyllotaxis-color-canvas: #fff;
-      --phyllotaxis-color-surface: #f4f4f4;
+      --phyllotaxis-color-surface: #f5f5f5;
       --phyllotaxis-color-text: #111;
       --phyllotaxis-color-text-muted: #555;
-      --phyllotaxis-color-border: #b8b8b8;
+      --phyllotaxis-color-border: #a0a0a0;
       --phyllotaxis-color-link: #0000ee;
       --phyllotaxis-color-link-visited: #551a8b;
-      --phyllotaxis-color-focus: #c45500;
-      --phyllotaxis-color-selection: #ffef9c;
-      --surface-a: #e9f0e7;
-      --surface-b: #e8eef3;
-      --surface-c: #f1eadc;
+      --phyllotaxis-color-focus: #111111;
+      --phyllotaxis-color-selection: #cfe3ff;
+      --surface-a: #e8efe7;
+      --surface-b: #e8eef4;
+      --surface-c: #f3ecdf;
+      --surface-d: #eee9f1;
     }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--phyllotaxis-color-canvas); color: var(--phyllotaxis-color-text); font: 1rem/1.45 var(--phyllotaxis-font-body); }
@@ -39,64 +40,69 @@
     a:focus-visible { outline: 3px solid var(--phyllotaxis-color-focus); outline-offset: 2px; }
     code { font-family: var(--phyllotaxis-font-mono); font-size: .95em; }
     h1, h2, h3, p { margin-top: 0; }
-    h1 { font-size: clamp(1.65rem, 4vw, 2.35rem); line-height: 1.08; letter-spacing: -.02em; margin-bottom: .5rem; }
+    h1 { font-size: 1.75rem; line-height: 1.15; letter-spacing: -.02em; margin-bottom: .5rem; }
     .page { width: min(var(--phyllotaxis-content-width-wide), calc(100% - 2 * var(--phyllotaxis-gutter-page))); margin-inline: auto; }
-    .topbar { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-block: .6rem; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .5rem; }
     .brand, .brand:visited { color: var(--phyllotaxis-color-text); font-size: 1.35rem; font-weight: 700; text-decoration: none; }
-    .mark { font: 700 .8rem var(--phyllotaxis-font-mono); margin-right: .5rem; }
+    .mark { display: inline-block; min-width: 2.5rem; padding: .25rem; border: 1px solid var(--phyllotaxis-color-border); font: 700 1rem/1 var(--phyllotaxis-font-mono); text-align: center; margin-right: .5rem; }
     .nav, .actions, .footer-links { display: flex; flex-wrap: wrap; gap: .4rem .85rem; }
     .nav { justify-content: flex-end; font-size: .875rem; }
-    .hero { padding: 1.5rem 0 1rem; display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(18rem, .55fr); gap: 1.5rem; align-items: start; }
-    .eyebrow { color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; font-weight: 700; text-transform: lowercase; margin-bottom: .25rem; }
+    .hero { padding: 2rem 0; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 2rem; align-items: center; }
+    .eyebrow { color: var(--phyllotaxis-color-text-muted); font-size: .875rem; font-weight: 700; text-transform: lowercase; margin-bottom: .25rem; }
     .lead { max-width: var(--phyllotaxis-content-width-narrow); margin-bottom: .5rem; }
     .actions { margin-top: 1rem; }
-    .action { display: inline-block; padding: .25rem .45rem; border: 1px solid #888; background: #eee; }
-    .action.primary { background: #ddd; border-color: #777; font-weight: 700; }
-    .action:hover { background: var(--surface-c); }
-    .maturity { margin: .5rem 0 0; color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; }
+    .action { display: inline-block; padding: .25rem .5rem; border: 1px solid var(--phyllotaxis-color-border); border-radius: 0; background: var(--phyllotaxis-color-canvas); }
+    .action.primary { border-color: var(--phyllotaxis-color-text-muted); font-weight: 700; }
+    .action:hover { border-color: currentColor; }
+    .maturity { margin: .5rem 0 0; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
     .maturity strong { color: #6a4d00; }
-    .model { border: 1px solid var(--phyllotaxis-color-border); }
-    .model-label { margin: 0; padding: .35rem .5rem; background: #e8e8e8; border-bottom: 1px solid var(--phyllotaxis-color-border); font-size: .8125rem; font-weight: 700; }
+    .model { min-width: 0; border: 1px solid var(--phyllotaxis-color-border); }
+    .model-label { margin: 0; padding: .35rem .5rem; background: var(--phyllotaxis-color-canvas); border-bottom: 1px solid var(--phyllotaxis-color-border); color: var(--phyllotaxis-color-text-muted); font: 700 .875rem/1.4 var(--phyllotaxis-font-mono); text-transform: uppercase; }
     .model-list { list-style: none; margin: 0; padding: 0 .5rem; }
     .model-list li { display: grid; grid-template-columns: 2rem 1fr; gap: .4rem; padding: .5rem 0; border-top: 1px solid #ddd; }
     .model-list li:first-child { border-top: 0; }
     .model-num { font: .8125rem var(--phyllotaxis-font-mono); color: var(--phyllotaxis-color-text-muted); }
     .model-list strong { display: block; font-size: .95rem; }
     .model-list small { display: block; font-size: .875rem; color: var(--phyllotaxis-color-text-muted); }
-    section { padding-block: 1rem; }
-    .section-title { font-size: clamp(1.35rem, 2.4vw, 1.55rem); line-height: 1.15; margin: 0 0 .5rem; padding: .35rem .5rem; }
-    .section-intro { margin: 0 .5rem .5rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .card { min-width: 0; padding: .65rem .75rem; transition: background-color 120ms ease-out; }
-    #implementation .grid { gap: .75rem; padding-inline: .5rem; }
+    section { padding-block: 2rem; }
+    .section-title { font-size: 1.25rem; line-height: 1.25; margin: 0 0 .5rem; }
+    .section-intro { max-width: 70rem; margin: .25rem 0 1.5rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+    .card { min-width: 0; }
     #implementation .card {
-      padding: .85rem 1rem;
+      padding: 1.5rem;
       border: 1px solid var(--phyllotaxis-color-border);
-      border-radius: 0;
-      background: var(--phyllotaxis-color-surface);
+      border-radius: 12px;
+      background: var(--surface-a);
     }
+    #implementation .card:nth-child(4n + 2) { background: var(--surface-b); }
+    #implementation .card:nth-child(4n + 3) { background: var(--surface-c); }
+    #implementation .card:nth-child(4n) { background: var(--surface-d); }
     #implementation .card:focus-within { border-color: var(--phyllotaxis-color-focus); }
     .card h3 { font-size: 1rem; margin: 0 0 .25rem; }
-    .card p, .card ul { margin: 0 0 .4rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
-    .card ul { padding-left: 1.15rem; }
-    @media (hover: hover) {
-      #implementation .card:nth-child(3n+1):hover, .card:nth-child(3n+1):hover { background: var(--surface-a); }
-      #implementation .card:nth-child(3n+2):hover, .card:nth-child(3n+2):hover { background: var(--surface-b); }
-      #implementation .card:nth-child(3n):hover, .card:nth-child(3n):hover { background: var(--surface-c); }
-    }
-    .list { display: grid; gap: .5rem; padding-inline: .75rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
+    .card p { margin: 0 0 .4rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
+    #implementation .card p { font-size: 1rem; margin-bottom: .5rem; }
+    #implementation .card p:last-child { margin-bottom: 0; }
+    #roadmap .card { padding-top: 1rem; border-top: 2px solid var(--phyllotaxis-color-border); }
+    #roadmap .card:first-child { border-top-color: #315e46; }
+    #roadmap .card h3 { font-size: 1.25rem; line-height: 1.25; }
+    .list { display: grid; gap: .5rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
     .list p { margin: 0; }
     .list strong { color: var(--phyllotaxis-color-text); }
-    .status-callout { margin: .5rem .5rem 0; padding: .6rem .75rem; border: 1px solid #8b6d00; background: #fff8d6; color: #443600; font-size: .875rem; }
+    .status-callout { margin: 1.5rem 0 0; padding: .5rem 1rem; border-left: 3px solid #8b6d00; background: var(--phyllotaxis-color-canvas); color: #443600; font-size: .875rem; }
     .status-callout p { margin: 0; }
-    footer { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 1rem; margin-top: 1rem; color: var(--phyllotaxis-color-text-muted); font-size: .8125rem; }
+    footer { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 1rem; margin-top: 1rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
     @media (max-width: 760px) {
       .topbar, footer { align-items: flex-start; flex-direction: column; }
       .nav { justify-content: flex-start; }
       .hero, .grid { grid-template-columns: minmax(0, 1fr); }
+      .model { max-width: 32rem; margin-inline: auto; width: 100%; }
     }
-    @media (prefers-reduced-motion: reduce) { .card { transition: none; } }
-    @media (forced-colors: active) { .action, .model, .status-callout, #implementation .card { border: 1px solid CanvasText; } }
+    @media (forced-colors: active) {
+      .action, .mark, .model, #implementation .card { border: 1px solid CanvasText; }
+      #roadmap .card, #roadmap .card:first-child, .model-label, .model-list li { border-top-color: CanvasText; }
+      .status-callout { border-left-color: CanvasText; }
+    }
   </style>
 </head>
 <body>
