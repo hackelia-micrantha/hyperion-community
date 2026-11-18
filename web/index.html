@@ -68,13 +68,21 @@
     .section-intro { margin: 0 .5rem .5rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
     .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .card { min-width: 0; padding: .65rem .75rem; transition: background-color 120ms ease-out; }
+    #implementation .grid { gap: .75rem; padding-inline: .5rem; }
+    #implementation .card {
+      padding: .85rem 1rem;
+      border: 1px solid var(--phyllotaxis-color-border);
+      border-radius: 0;
+      background: var(--phyllotaxis-color-surface);
+    }
+    #implementation .card:focus-within { border-color: var(--phyllotaxis-color-focus); }
     .card h3 { font-size: 1rem; margin: 0 0 .25rem; }
     .card p, .card ul { margin: 0 0 .4rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
     .card ul { padding-left: 1.15rem; }
     @media (hover: hover) {
-      .card:nth-child(3n+1):hover { background: var(--surface-a); }
-      .card:nth-child(3n+2):hover { background: var(--surface-b); }
-      .card:nth-child(3n):hover { background: var(--surface-c); }
+      #implementation .card:nth-child(3n+1):hover, .card:nth-child(3n+1):hover { background: var(--surface-a); }
+      #implementation .card:nth-child(3n+2):hover, .card:nth-child(3n+2):hover { background: var(--surface-b); }
+      #implementation .card:nth-child(3n):hover, .card:nth-child(3n):hover { background: var(--surface-c); }
     }
     .list { display: grid; gap: .5rem; padding-inline: .75rem; color: var(--phyllotaxis-color-text-muted); font-size: .875rem; }
     .list p { margin: 0; }
@@ -90,7 +98,7 @@
       .hero, .grid { grid-template-columns: minmax(0, 1fr); }
     }
     @media (prefers-reduced-motion: reduce) { .card { transition: none; } }
-    @media (forced-colors: active) { .action, .model, .status-callout, pre { border: 1px solid CanvasText; } }
+    @media (forced-colors: active) { .action, .model, .status-callout, pre, #implementation .card { border: 1px solid CanvasText; } }
   </style>
 </head>
 <body>
